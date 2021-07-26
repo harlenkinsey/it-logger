@@ -6,13 +6,6 @@
       "tech": "John Doe",
       "date": "2021-07-24T15:43:24.101Z",
       "id": 1
-    },
-    {
-      "message": "Workstation 271 Network Connection Down",
-      "attention": true,
-      "tech": "Sam Smith",
-      "date": "2021-07-24T15:44:14.487Z",
-      "id": 2
     }
   ],
   "techs": [
