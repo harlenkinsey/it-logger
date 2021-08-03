@@ -1,32 +1,22 @@
 import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import TechItem from './TechItem';
+import  { getTechs } from '../../actions/techActions';
 
-const TechListModal = () => {
-
-    const [techs, setTechs] = useState([]);
-    const [loading, setLoading] = useState(false);
+const TechListModal = ({ getTechs, tech: { techs, loading } }) => {
 
     useEffect(() => {
         getTechs();
         //eslint-disable-next-line
     }, []);
 
-    const getTechs = async () => {
-        
-        setLoading(true);
-        const res = await fetch('/techs'); // dont have to use 'http://localhost:5000' because of proxy set in package.json
-        const data = await res.json();
-
-        setTechs(data);
-        setLoading(false);
-    }
-
     return (
         <div id='tech-list-modal' className='modal'>
             <div className='modal-content'>
                 <h4>Technician List</h4>
                 <ul className='collection'>
-                    {!loading && techs.map(tech => (
+                    {!loading && techs !== null && techs.map(tech => (
                         <li className='collection-item'><TechItem tech={tech} key={tech.id} /></li>
                     ))}
                 </ul>
@@ -36,4 +26,13 @@ const TechListModal = () => {
     )
 }
 
-export default TechListModal
+TechListModal.propTypes = {
+    tech: PropTypes.object.isRequired,
+    getTechs: PropTypes.func.isRequired
+}
+
+const mapStateToProps = state => ({
+    tech: state.tech
+});
+
+export default connect(mapStateToProps, { getTechs })(TechListModal);
