@@ -1,10 +1,10 @@
 {
   "logs": [
     {
-      "message": "Changed network card in server 0921",
+      "message": "Workstation 401 Missing",
       "attention": true,
       "tech": "John Doe",
-      "date": "2021-07-24T15:43:24.101Z",
+      "date": "2021-08-04T18:01:39.868Z",
       "id": 1
     }
   ],
