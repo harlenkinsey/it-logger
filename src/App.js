@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import './App.css';
+import Header from "./components/Header";
 import {db} from './firebase-config';
 import { collection, getDocs } from "firebase/firestore";
+
+import M from 'materialize-css';
 
 
 
@@ -32,6 +35,7 @@ function App() {
   
   return (
     <div className="App">
+      <Header></Header>
       <h1>Technicians: </h1>
       {technicians.map((technician) => {
         return (
