@@ -1,13 +1,14 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import './App.css';
 
-import Header from "./components/Header";
+import Header from "./app/Header";
+import { TechniciansList } from "./features/technicians/TechniciansList";
 
 import {db} from './firebase-config';
 import { collection, getDocs } from "firebase/firestore";
 
 
-import store from './store';
+import store from './app/store';
 import { Provider } from 'react-redux';
 
 
@@ -39,7 +40,7 @@ function App() {
   
   return (
     <Provider store={store}>
-      <div className="App">
+      <React.Fragment>
         <Header></Header>
         <h1>Technicians: </h1>
         {technicians.map((technician) => {
@@ -63,7 +64,8 @@ function App() {
             </div>
           )
         })}
-      </div>
+        <TechniciansList />
+      </React.Fragment>
     </Provider>
   );
 }
