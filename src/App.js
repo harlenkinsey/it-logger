@@ -15,20 +15,11 @@ import { Provider } from 'react-redux';
 
 function App() {
   
-  const [technicians, setTechnicians] = useState([]);
   const [tickets, setTickets] = useState([]);
 
-  const technicianCollectionRef = collection(db, "technicians");
   const ticketCollectionRef = collection(db, "tickets");
 
   useEffect(() => {
-
-    const getTechnicians = async () => {
-      const data = await getDocs(technicianCollectionRef);
-      setTechnicians(data.docs.map((doc) => ({...doc.data(), id: doc.id})))
-    }
-
-    getTechnicians()
 
     const getTickets = async () => {
       const data = await getDocs(ticketCollectionRef);
@@ -43,15 +34,8 @@ function App() {
       <React.Fragment>
         <Header></Header>
         <h1>Technicians: </h1>
-        {technicians.map((technician) => {
-          return (
-            <div> 
-              <h3>Name: {technician.name}</h3>
-              <h3>Age: {technician.age}</h3>
-              <h3>Certification: {technician.certification}</h3>
-            </div>
-          )
-        })}
+
+        <TechniciansList />
 
         <h1>Tickets</h1>
         {tickets.map((ticket) => {
@@ -64,7 +48,7 @@ function App() {
             </div>
           )
         })}
-        <TechniciansList />
+        
       </React.Fragment>
     </Provider>
   );
