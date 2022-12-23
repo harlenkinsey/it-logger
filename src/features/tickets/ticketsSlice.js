@@ -39,5 +39,8 @@ const ticketsSlice = createSlice({
 })
 
 export const selectAllTickets = state => state.tickets.tickets
+export const selectAllStatuses = state => state.tickets.status
+export const selectAllErrors = state => state.tickets.error
+export const selectAllReferences = state => state.tickes.reference
 
 export default ticketsSlice.reducer

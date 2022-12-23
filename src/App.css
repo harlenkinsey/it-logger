@@ -32,3 +32,20 @@
     transform: rotate(360deg);
   }
 }
+
+.main-container {
+  width: 80%;
+}
+
+.border-full {
+  border-style: solid;
+  border-color: #282c34;
+  border-radius: 5px;
+  border-width: 2px;
+}
+
+.border-right {
+  border-right-style: solid;
+  border-right-color: #282c34;
+  border-right-width: 1px;
+}

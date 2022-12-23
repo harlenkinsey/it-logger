@@ -1,15 +1,28 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectAllTickets, fetchTickets } from './ticketsSlice';
-
+import { 
+  selectAllTickets, 
+  selectAllErrors, 
+  selectAllStatuses, 
+  selectAllReferences, 
+  fetchTickets 
+} from './ticketsSlice';
 
 const TicketBlock = ({ ticket }) => {
   return (
-    <div>
-      <h3>{ticket.subject}</h3>
-      <h4>{ticket.status}</h4>
-      <h4>{ticket.details}</h4>
-      <h4>{ticket.technician}</h4>
+    <div className='row main-container border-full'>
+      <div className='col s3'>
+        <h5>{ticket.reference}</h5>
+      </div>
+      <div className='col s3'>
+        <h5>{ticket.subject}</h5>
+      </div>
+      <div className='col s3'>
+        <h5>{ticket.technician}</h5>
+      </div>
+      <div className='col s3'>
+        <h5>{ticket.status}</h5>
+      </div>
     </div>
   )
 }
@@ -18,10 +31,8 @@ export const TicketsList = () => {
   const dispatch = useDispatch()
   const tickets = useSelector(selectAllTickets)
 
-  console.log(tickets)
-
-  const ticketStatus = useSelector(state => state.tickets.status)
-  const error = useSelector(state => state.tickets.error)
+  const ticketStatus = useSelector(selectAllStatuses)
+  const error = useSelector(selectAllErrors)
 
   useEffect(() => {
     if (ticketStatus === 'idle') {
