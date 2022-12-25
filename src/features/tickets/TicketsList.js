@@ -4,7 +4,8 @@ import {
   selectAllTickets, 
   selectAllErrors, 
   selectAllStatuses, 
-  selectAllReferences, 
+  selectAllReferences,
+  selectSearch, 
   fetchTickets 
 } from './ticketsSlice';
 

@@ -7,7 +7,9 @@ const ticketCollectionRef = collection(db, 'tickets');
 
 const initialState = {
   tickets: [],
+  ticketsStringified: [],
   status: 'idle',
+  search: [],
   error: null
 }
 
@@ -20,7 +22,11 @@ const ticketsSlice = createSlice({
   name: 'tickets',
   initialState,
   reducers: {
+    searchClicked: {
+      reducer(state, action) {
 
+      }
+    }
   },
   extraReducers(builder) {
     builder
@@ -30,6 +36,7 @@ const ticketsSlice = createSlice({
     .addCase(fetchTickets.fulfilled, (state, action) => {
       state.status = 'succeeded'
       state.tickets = action.payload
+      state.ticketsStringified = action.payload.map(ticket => JSON.stringify(ticket))
     })
     .addCase(fetchTickets.rejected, (state, action) => {
       state.status = 'failed'
@@ -41,6 +48,7 @@ const ticketsSlice = createSlice({
 export const selectAllTickets = state => state.tickets.tickets
 export const selectAllStatuses = state => state.tickets.status
 export const selectAllErrors = state => state.tickets.error
-export const selectAllReferences = state => state.tickes.reference
+export const selectAllReferences = state => state.tickets.reference
+export const selectSearch = state => state.search
 
 export default ticketsSlice.reducer
