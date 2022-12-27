@@ -24,6 +24,16 @@ const ticketsSlice = createSlice({
   reducers: {
     searchClicked: {
       reducer(state, action) {
+        const query = action.payload.split(' ');
+        let matches;
+
+        for(let x = 0; x < state.ticketsStringified.length; x++) {
+          for(let y = 0; y < query.length; y++) {
+            if(state.ticketsStringified[x] == query[y]) {
+              
+            }
+          }
+        }
 
       }
     }
@@ -36,7 +46,8 @@ const ticketsSlice = createSlice({
     .addCase(fetchTickets.fulfilled, (state, action) => {
       state.status = 'succeeded'
       state.tickets = action.payload
-      state.ticketsStringified = action.payload.map(ticket => JSON.stringify(ticket))
+      console.log(state.tickets);
+      state.ticketsStringified = action.payload.map(ticket => stringifyTicket(ticket))
     })
     .addCase(fetchTickets.rejected, (state, action) => {
       state.status = 'failed'
@@ -44,6 +55,10 @@ const ticketsSlice = createSlice({
     })
   }
 })
+
+const stringifyTicket = (ticket) => {
+  return [ticket.technician, ticket.reference.toString(), ticket.status, ticket.details]
+}
 
 export const selectAllTickets = state => state.tickets.tickets
 export const selectAllStatuses = state => state.tickets.status
