@@ -31,6 +31,7 @@ const TicketBlock = ({ ticket }) => {
 export const TicketsList = () => {
   const dispatch = useDispatch()
   const tickets = useSelector(selectAllTickets)
+  const search = useSelector(selectSearch)
 
   const ticketStatus = useSelector(selectAllStatuses)
   const error = useSelector(selectAllErrors)
@@ -52,7 +53,13 @@ export const TicketsList = () => {
   } else if (ticketStatus === 'failed') {
     content = <div>{error}</div>
   }
-  
+
+  if(search != null) {
+    content = search.map(ticket => (
+      <TicketBlock key={ticket.id} ticket={ticket} />
+     ))
+  }
+
   return (
     <section>
       {content}

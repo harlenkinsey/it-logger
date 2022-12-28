@@ -9,7 +9,8 @@ const initialState = {
   tickets: [],
   ticketsStringified: [],
   status: 'idle',
-  search: [],
+  search: null,
+  query: null,
   error: null
 }
 
@@ -25,17 +26,27 @@ const ticketsSlice = createSlice({
     searchClicked: {
       reducer(state, action) {
         const query = action.payload.split(' ');
-        let matches;
+        let matches = [];
 
         for(let x = 0; x < state.ticketsStringified.length; x++) {
-          for(let y = 0; y < query.length; y++) {
-            if(state.ticketsStringified[x] == query[y]) {
-              
+          for(let y = 0; y < state.ticketsStringified[x].length; y++) {
+            for(let z = 0; z < query.length; z++) {
+              if(state.ticketsStringified[x][y] == query[z]) {
+                matches.push(state.tickets[x]);
+              }
             }
           }
         }
-
+        
+        state.search = matches;
+      },
+    
+    queryUpdated: {
+      reducer(state, action) {
+        state.query = action.payload;
       }
+    }
+    
     }
   },
   extraReducers(builder) {
@@ -46,7 +57,6 @@ const ticketsSlice = createSlice({
     .addCase(fetchTickets.fulfilled, (state, action) => {
       state.status = 'succeeded'
       state.tickets = action.payload
-      console.log(state.tickets);
       state.ticketsStringified = action.payload.map(ticket => stringifyTicket(ticket))
     })
     .addCase(fetchTickets.rejected, (state, action) => {
@@ -65,5 +75,8 @@ export const selectAllStatuses = state => state.tickets.status
 export const selectAllErrors = state => state.tickets.error
 export const selectAllReferences = state => state.tickets.reference
 export const selectSearch = state => state.search
+export const selectQuery = state => state.query
+
+export const { searchClicked, queryUpdated } = ticketsSlice.actions
 
 export default ticketsSlice.reducer
