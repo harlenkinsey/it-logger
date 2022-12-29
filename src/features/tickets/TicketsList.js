@@ -2,10 +2,10 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { 
   selectAllTickets, 
-  selectAllErrors, 
-  selectAllStatuses, 
-  selectAllReferences,
-  selectSearch, 
+  selectError, 
+  selectStatus,
+  selectSearch,
+  selectQuery, 
   fetchTickets 
 } from './ticketsSlice';
 
@@ -32,9 +32,10 @@ export const TicketsList = () => {
   const dispatch = useDispatch()
   const tickets = useSelector(selectAllTickets)
   const search = useSelector(selectSearch)
+  const query = useSelector(selectQuery)
 
-  const ticketStatus = useSelector(selectAllStatuses)
-  const error = useSelector(selectAllErrors)
+  const ticketStatus = useSelector(selectStatus)
+  const error = useSelector(selectError)
 
   useEffect(() => {
     if (ticketStatus === 'idle') {
@@ -53,11 +54,17 @@ export const TicketsList = () => {
   } else if (ticketStatus === 'failed') {
     content = <div>{error}</div>
   }
+  console.log(search.length)
 
-  if(search != null) {
+  if(query && search.length > 0) {
     content = search.map(ticket => (
       <TicketBlock key={ticket.id} ticket={ticket} />
      ))
+  } else if (query && search.length === 0) {
+    content = 
+    <div className='row main-container center-align'>
+      <h4>No results...</h4>
+    </div>
   }
 
   return (

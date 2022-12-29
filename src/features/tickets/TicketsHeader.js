@@ -1,21 +1,25 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { searchClicked, queryUpdated } from './ticketsSlice';
+import { queryUpdated } from './ticketsSlice';
 
 
 export const TicketsHeader = () => {
     const [query, setQuery] = useState('')
     const dispatch = useDispatch()
 
-    const onQueryChanged = e => setQuery(e.target.value)
-
-    const onSearchClicked = () => {
-        if (query) {
-            dispatch(searchClicked(query))
-        }
+    const onQueryUpdated = (e) => {
+        setQuery(e.target.value)
+        dispatch(queryUpdated(e.target.value))
     }
 
-    const onQueryUpdated = () => {
+    const clearQuery = () => {
+        let query = document.getElementById('searchQuery');
+        
+        if (query.value != '') { 
+            dispatch(queryUpdated(''))
+        }
+        
+        document.getElementById('searchQuery').value = '';
         
     }
     
@@ -25,6 +29,11 @@ export const TicketsHeader = () => {
             <div className='col s6'>
                 <a class="waves-effect waves-light btn-large">Technicians</a>
             </div>
+            <div className='col s1'>
+                <a class="waves-effect waves-light btn-large red" onClick={clearQuery}>
+                    <i className='material-icons'>delete</i>
+                </a>
+            </div>
             <div className='input-field col s5'>
                 <input
                     placeholder='Search tickets...' 
@@ -32,13 +41,8 @@ export const TicketsHeader = () => {
                     type='text' 
                     name='searchQuery'
                     value={query}
-                    onChange={onQueryChanged}
+                    onChange={onQueryUpdated}
                 />
-            </div>
-            <div className='col s1'>
-                <a class="waves-effect waves-light btn-large" onClick={onSearchClicked}>
-                    <i className='material-icons'>search</i>
-                </a>
             </div>
         </div>
         <div className='row main-container border-full'>

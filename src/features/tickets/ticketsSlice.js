@@ -9,7 +9,7 @@ const initialState = {
   tickets: [],
   ticketsStringified: [],
   status: 'idle',
-  search: null,
+  search: [],
   query: null,
   error: null
 }
@@ -23,9 +23,12 @@ const ticketsSlice = createSlice({
   name: 'tickets',
   initialState,
   reducers: {
-    searchClicked: {
+    queryUpdated: {
       reducer(state, action) {
-        const query = action.payload.split(' ');
+        let query = action.payload.toLowerCase();
+        state.query = query;
+        query = query.split(' ');
+
         let matches = [];
 
         for(let x = 0; x < state.ticketsStringified.length; x++) {
@@ -39,14 +42,7 @@ const ticketsSlice = createSlice({
         }
         
         state.search = matches;
-      },
-    
-    queryUpdated: {
-      reducer(state, action) {
-        state.query = action.payload;
       }
-    }
-    
     }
   },
   extraReducers(builder) {
@@ -67,16 +63,21 @@ const ticketsSlice = createSlice({
 })
 
 const stringifyTicket = (ticket) => {
-  return [ticket.technician, ticket.reference.toString(), ticket.status, ticket.details]
+
+  let split = ticket.technician.split(' ').concat(ticket.details.split(' ')).concat(ticket.subject.split(' '));
+  
+  let ticketStringified = [ticket.reference.toString(), ticket.status].concat(split)
+  let ticketStringifiedLower = ticketStringified.map(element => element.toLowerCase())
+  
+  return ticketStringifiedLower
 }
 
 export const selectAllTickets = state => state.tickets.tickets
-export const selectAllStatuses = state => state.tickets.status
-export const selectAllErrors = state => state.tickets.error
-export const selectAllReferences = state => state.tickets.reference
-export const selectSearch = state => state.search
-export const selectQuery = state => state.query
+export const selectStatus = state => state.tickets.status
+export const selectError = state => state.tickets.error
+export const selectSearch = state => state.tickets.search
+export const selectQuery = state => state.tickets.query
 
-export const { searchClicked, queryUpdated } = ticketsSlice.actions
+export const { queryUpdated } = ticketsSlice.actions
 
 export default ticketsSlice.reducer
