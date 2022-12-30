@@ -1,14 +1,27 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectAllTechnicians, fetchTechnicians } from './techniciansSlice';
-
+import { 
+  selectAllTechnicians, 
+  selectError, 
+  selectStatus,
+  selectSearch,
+  selectQuery,
+  selectView, 
+  fetchTechnicians 
+} from './techniciansSlice';
 
 const TechnicianBlock = ({ technician }) => {
   return (
-    <div>
-      <h3>{technician.name}</h3>
-      <h4>{technician.age}</h4>
-      <h4>{technician.certification}</h4>
+    <div className='row main-container border-full'>
+      <div className='col s4'>
+        <h5>{technician.name}</h5>
+      </div>
+      <div className='col s4'>
+        <h5>{technician.age}</h5>
+      </div>
+      <div className='col s4'>
+        <h5>{technician.certification}</h5>
+      </div>
     </div>
   )
 }
@@ -16,9 +29,12 @@ const TechnicianBlock = ({ technician }) => {
 export const TechniciansList = () => {
   const dispatch = useDispatch()
   const technicians = useSelector(selectAllTechnicians)
+  const search = useSelector(selectSearch)
+  const query = useSelector(selectQuery)
+  const view = useSelector(selectView)
 
-  const technicianStatus = useSelector(state => state.technicians.status)
-  const error = useSelector(state => state.technicians.error)
+  const technicianStatus = useSelector(selectStatus)
+  const error = useSelector(selectError)
 
   useEffect(() => {
     if (technicianStatus === 'idle') {
@@ -29,7 +45,10 @@ export const TechniciansList = () => {
   let content
 
   if(technicianStatus === 'loading') {
-    content = 'loading...'
+    content = 
+    <div className='row main-container center-align'>
+      <h4>loading...</h4>
+    </div>
   } else if (technicianStatus === 'succeeded') {
     content = technicians.map(technician => (
      <TechnicianBlock key={technician.id} technician={technician} />
@@ -37,7 +56,19 @@ export const TechniciansList = () => {
   } else if (technicianStatus === 'failed') {
     content = <div>{error}</div>
   }
-  
+  console.log(search.length)
+
+  if(query && search.length > 0) {
+    content = search.map(technician => (
+      <TechnicianBlock key={technician.id} technician={technician} />
+     ))
+  } else if (query && search.length === 0) {
+    content = 
+    <div className='row main-container center-align'>
+      <h4>No results...</h4>
+    </div>
+  }
+
   return (
     <section>
       {content}

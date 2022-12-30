@@ -7,7 +7,11 @@ const technicianCollectionRef = collection(db, 'technicians');
 
 const initialState = {
   technicians: [],
+  techniciansStringified: [],
   status: 'idle',
+  search: [],
+  query: null,
+  view: 'tickets',
   error: null
 }
 
@@ -20,7 +24,32 @@ const techniciansSlice = createSlice({
   name: 'technicians',
   initialState,
   reducers: {
+    queryUpdated: {
+      reducer(state, action) {
+        let query = action.payload.toLowerCase();
+        state.query = query;
+        query = query.split(' ');
 
+        let matches = [];
+
+        for(let x = 0; x < state.techniciansStringified.length; x++) {
+          for(let y = 0; y < state.techniciansStringified[x].length; y++) {
+            for(let z = 0; z < query.length; z++) {
+              if(state.techniciansStringified[x][y] == query[z]) {
+                matches.push(state.technicians[x]);
+              }
+            }
+          }
+        }
+        
+        state.search = matches;
+      }
+    },
+    viewUpdated: {
+      reducer(state, action) {
+        state.view = action.payload;
+      }
+    }
   },
   extraReducers(builder) {
     builder
@@ -30,6 +59,7 @@ const techniciansSlice = createSlice({
     .addCase(fetchTechnicians.fulfilled, (state, action) => {
       state.status = 'succeeded'
       state.technicians = action.payload
+      state.techniciansStringified = action.payload.map(technician => stringifyTechnician(technician))
     })
     .addCase(fetchTechnicians.rejected, (state, action) => {
       state.status = 'failed'
@@ -38,6 +68,23 @@ const techniciansSlice = createSlice({
   }
 })
 
+const stringifyTechnician = (technician) => {
+
+  let split = technician.name.split(' ').concat(technician.certification.split(' '));
+  
+  let technicianStringified = [technician.age.toString()].concat(split)
+  let technicianStringifiedLower = technicianStringified.map(element => element.toLowerCase())
+  
+  return technicianStringifiedLower
+}
+
 export const selectAllTechnicians = state => state.technicians.technicians
+export const selectStatus = state => state.technicians.status
+export const selectError = state => state.technicians.error
+export const selectSearch = state => state.technicians.search
+export const selectQuery = state => state.technicians.query
+export const selectView = state => state.technicians.view
+
+export const { queryUpdated, viewUpdated } = techniciansSlice.actions
 
 export default techniciansSlice.reducer

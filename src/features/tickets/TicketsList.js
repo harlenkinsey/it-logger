@@ -5,7 +5,8 @@ import {
   selectError, 
   selectStatus,
   selectSearch,
-  selectQuery, 
+  selectQuery,
+  selectView, 
   fetchTickets 
 } from './ticketsSlice';
 
@@ -33,6 +34,7 @@ export const TicketsList = () => {
   const tickets = useSelector(selectAllTickets)
   const search = useSelector(selectSearch)
   const query = useSelector(selectQuery)
+  const view = useSelector(selectView)
 
   const ticketStatus = useSelector(selectStatus)
   const error = useSelector(selectError)
@@ -46,7 +48,10 @@ export const TicketsList = () => {
   let content
 
   if(ticketStatus === 'loading') {
-    content = 'loading...'
+    content = 
+    <div className='row main-container center-align'>
+      <h4>loading...</h4>
+    </div>
   } else if (ticketStatus === 'succeeded') {
     content = tickets.map(ticket => (
      <TicketBlock key={ticket.id} ticket={ticket} />
