@@ -1,11 +1,17 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { queryUpdated } from './ticketsSlice';
-
+import { viewUpdated } from '../view/viewSlice';
 
 export const TicketsHeader = () => {
+
     const [query, setQuery] = useState('')
     const dispatch = useDispatch()
+
+    const techniciansClicked = () => 
+    {
+        dispatch(viewUpdated("technicians"));
+    }
 
     const onQueryUpdated = (e) => {
         setQuery(e.target.value)
@@ -15,19 +21,18 @@ export const TicketsHeader = () => {
     const clearQuery = () => {
         let query = document.getElementById('searchQuery');
         
-        if (query.value != '') { 
+        if (query.value !== '') { 
             dispatch(queryUpdated(''))
         }
         
         document.getElementById('searchQuery').value = '';
-        
     }
     
     return (
     <div>
         <div className='row main-container valign-wrapper'>
             <div className='col s6'>
-                <a class="waves-effect waves-light btn-large">Technicians</a>
+                <a class="waves-effect waves-light btn-large" onClick={techniciansClicked}>Technicians</a>
             </div>
             <div className='col s1'>
                 <a class="waves-effect waves-light btn-large red" onClick={clearQuery}>
@@ -60,5 +65,5 @@ export const TicketsHeader = () => {
             </div>
         </div>
     </div>
-      )
+    )
 }

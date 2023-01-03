@@ -6,7 +6,6 @@ import {
   selectStatus,
   selectSearch,
   selectQuery,
-  selectView, 
   fetchTickets 
 } from './ticketsSlice';
 
@@ -34,7 +33,6 @@ export const TicketsList = () => {
   const tickets = useSelector(selectAllTickets)
   const search = useSelector(selectSearch)
   const query = useSelector(selectQuery)
-  const view = useSelector(selectView)
 
   const ticketStatus = useSelector(selectStatus)
   const error = useSelector(selectError)
@@ -59,7 +57,6 @@ export const TicketsList = () => {
   } else if (ticketStatus === 'failed') {
     content = <div>{error}</div>
   }
-  console.log(search.length)
 
   if(query && search.length > 0) {
     content = search.map(ticket => (

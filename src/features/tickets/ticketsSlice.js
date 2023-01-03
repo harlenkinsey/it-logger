@@ -11,7 +11,6 @@ const initialState = {
   status: 'idle',
   search: [],
   query: null,
-  view: 'tickets',
   error: null
 }
 
@@ -35,7 +34,7 @@ const ticketsSlice = createSlice({
         for(let x = 0; x < state.ticketsStringified.length; x++) {
           for(let y = 0; y < state.ticketsStringified[x].length; y++) {
             for(let z = 0; z < query.length; z++) {
-              if(state.ticketsStringified[x][y] == query[z]) {
+              if(state.ticketsStringified[x][y] === query[z]) {
                 matches.push(state.tickets[x]);
               }
             }
@@ -43,11 +42,6 @@ const ticketsSlice = createSlice({
         }
         
         state.search = matches;
-      }
-    },
-    viewUpdated: {
-      reducer(state, action) {
-        state.view = action.payload;
       }
     }
   },
@@ -83,8 +77,7 @@ export const selectStatus = state => state.tickets.status
 export const selectError = state => state.tickets.error
 export const selectSearch = state => state.tickets.search
 export const selectQuery = state => state.tickets.query
-export const selectView = state => state.tickets.view
 
-export const { queryUpdated, viewUpdated } = ticketsSlice.actions
+export const { queryUpdated } = ticketsSlice.actions
 
 export default ticketsSlice.reducer

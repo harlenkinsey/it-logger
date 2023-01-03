@@ -6,7 +6,6 @@ import {
   selectStatus,
   selectSearch,
   selectQuery,
-  selectView, 
   fetchTechnicians 
 } from './techniciansSlice';
 
@@ -31,7 +30,6 @@ export const TechniciansList = () => {
   const technicians = useSelector(selectAllTechnicians)
   const search = useSelector(selectSearch)
   const query = useSelector(selectQuery)
-  const view = useSelector(selectView)
 
   const technicianStatus = useSelector(selectStatus)
   const error = useSelector(selectError)
@@ -56,7 +54,6 @@ export const TechniciansList = () => {
   } else if (technicianStatus === 'failed') {
     content = <div>{error}</div>
   }
-  console.log(search.length)
 
   if(query && search.length > 0) {
     content = search.map(technician => (

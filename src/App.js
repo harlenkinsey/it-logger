@@ -1,21 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import './App.css';
 
 import Header from "./app/Header";
-import { TechniciansList } from "./features/technicians/TechniciansList";
-import { TechniciansHeader } from "./features/technicians/TechniciansHeader";
-import { TicketsList } from "./features/tickets/TicketsList";
-import { TicketsHeader } from "./features/tickets/TicketsHeader";
-
+import { View } from "./features/view/View";
 
 import store from './app/store';
 import { Provider } from 'react-redux';
 
-
-
 function App() {
-
-  const [view, setView] = useState('tickets')
   
   return (
     <Provider store={store}>
@@ -23,11 +15,7 @@ function App() {
         
         <Header></Header>
         
-        <TechniciansHeader />
-        <TechniciansList />
-
-        <TicketsHeader />
-        <TicketsList />
+        <View></View>
         
       </React.Fragment>
     </Provider>
