@@ -1,7 +1,7 @@
 import React from "react";
 import './App.css';
 
-import Header from "./app/Header";
+import Footer from "./app/Footer";
 import { View } from "./features/view/View";
 
 import store from './app/store';
@@ -13,9 +13,9 @@ function App() {
     <Provider store={store}>
       <React.Fragment>
         
-        <Header></Header>
+        <Footer />
         
-        <View></View>
+        <View />
         
       </React.Fragment>
     </Provider>

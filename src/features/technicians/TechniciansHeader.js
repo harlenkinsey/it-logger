@@ -33,12 +33,12 @@ export const TechniciansHeader = () => {
         <div>
             <div className='row main-container valign-wrapper'>
                 <div className='col s6'>
-                    <a class="waves-effect waves-light btn-large" onClick={ticketsClicked}>Tickets</a>
+                    <button class="waves-effect waves-light btn-large" onClick={ticketsClicked}>Tickets</button>
                 </div>
                 <div className='col s1'>
-                    <a class="waves-effect waves-light btn-large red" onClick={clearQuery}>
+                    <button className="waves-effect waves-light btn-large red" onClick={clearQuery}>
                         <i className='material-icons'>delete</i>
-                    </a>
+                    </button>
                 </div>
                 <div className='input-field col s5'>
                     <input
