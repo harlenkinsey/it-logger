@@ -13,13 +13,13 @@ const TechnicianBlock = ({ technician }) => {
   return (
     <div className='row main-container border-full'>
       <div className='col s4'>
-        <h5>{technician.name}</h5>
+        <h5 className='ellipsis center-align'>{technician.name}</h5>
       </div>
       <div className='col s4'>
-        <h5>{technician.age}</h5>
+        <h5 className='ellipsis center-align'>{technician.age}</h5>
       </div>
       <div className='col s4'>
-        <h5>{technician.certification}</h5>
+        <h5 className='ellipsis center-align'>{technician.certification}</h5>
       </div>
     </div>
   )

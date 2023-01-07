@@ -11,18 +11,18 @@ import {
 
 const TicketBlock = ({ ticket }) => {
   return (
-    <div className='row main-container border-full'>
+    <div className='row main-container border-full' >
       <div className='col s3'>
-        <h5>{ticket.reference}</h5>
+        <h5 className='ellipsis center-align'>{ticket.reference}</h5>
+      </div>
+      <div className='col s3' >
+        <h5 className='ellipsis center-align'>{ticket.subject}</h5>
       </div>
       <div className='col s3'>
-        <h5>{ticket.subject}</h5>
+        <h5 className='ellipsis center-align'>{ticket.technician}</h5>
       </div>
       <div className='col s3'>
-        <h5>{ticket.technician}</h5>
-      </div>
-      <div className='col s3'>
-        <h5>{ticket.status}</h5>
+        <h5 className='ellipsis center-align'>{ticket.status}</h5>
       </div>
     </div>
   )

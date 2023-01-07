@@ -32,15 +32,13 @@ export const TechniciansHeader = () => {
     return (
         <div>
             <div className='row main-container valign-wrapper'>
-                <div className='col s6'>
-                    <button class="waves-effect waves-light btn-large" onClick={ticketsClicked}>Tickets</button>
+                <div className='col s6 padding-left'>
+                    <button class='waves-effect waves-light btn-large' onClick={ticketsClicked}>Tickets</button>
                 </div>
-                <div className='col s1'>
-                    <button className="waves-effect waves-light btn-large red" onClick={clearQuery}>
-                        <i className='material-icons'>delete</i>
-                    </button>
+                <div className='col s1 waves-effect waves-light btn-large red' onClick={clearQuery}>
+                    <i className='material-icons'>delete</i>
                 </div>
-                <div className='input-field col s5'>
+                <div className='input-field col s5 padding-left search-padding'>
                     <input
                         placeholder='Search technicians...' 
                         id='searchQuery' 
@@ -52,13 +50,13 @@ export const TechniciansHeader = () => {
                 </div>
             </div>
             <div className='row main-container border-full'>
-                <div className='col s4 border-right'>
+                <div className='col s4 border-right center-align'>
                     <h5>Name</h5>
                 </div>
-                <div className='col s4 border-right'>
+                <div className='col s4 border-right center-align'>
                     <h5>Age</h5>
                 </div>
-                <div className='col s4'>
+                <div className='col s4 center-align'>
                     <h5>Certification</h5>
                 </div>
             </div>
