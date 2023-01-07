@@ -29,6 +29,10 @@
   margin: 0;
 }
 
+.floating-btn {
+  bottom: 80px;
+}
+
 .header-container {
   padding: 10px;
 }
@@ -53,6 +57,10 @@
     border-color: #282c34;
     border-width: 2px;
     border-radius: 0;
+  }
+
+  .floating-btn {
+    bottom: 60px;
   }
 
   .main-container {
@@ -104,6 +112,10 @@
     border-color: #282c34;
     border-width: 2px;
     border-radius: 0;
+  }
+
+  .floating-btn {
+    bottom: 60px;
   }
 
   .main-container {
