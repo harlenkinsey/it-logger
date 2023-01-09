@@ -3,7 +3,6 @@ import M from 'materialize-css';
 
 export const ActionButton = () => {
     
-
     useEffect(() => {
 
         var options = {hoverEnabled: false};
@@ -12,17 +11,14 @@ export const ActionButton = () => {
         
       }, [])
 
-
     return(
         <div class="fixed-action-btn floating-btn">
             <a class="btn-floating btn-large red">
-                <i class="large material-icons">mode_edit</i>
+                <i class="large material-icons">add</i>
             </a>
             <ul>
-                <li><a class="btn-floating red"><i class="material-icons">insert_chart</i></a></li>
-                <li><a class="btn-floating yellow darken-1"><i class="material-icons">format_quote</i></a></li>
-                <li><a class="btn-floating green"><i class="material-icons">publish</i></a></li>
-                <li><a class="btn-floating blue"><i class="material-icons">attach_file</i></a></li>
+                <li><a class="btn-floating blue"><i class="material-icons">assignment_ind</i></a></li>
+                <li><a class="btn-floating green darken-1"><i class="material-icons">assignment</i></a></li>
             </ul>
         </div>
     )
