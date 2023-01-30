@@ -6,13 +6,17 @@ import {
   selectStatus,
   selectSearch,
   selectQuery,
-  fetchTickets 
+  fetchTickets,
+  deleteTicket 
 } from './ticketsSlice';
 
-const TicketBlock = ({ ticket }) => {
+const TicketBlock = ({ ticket, handleDelete }) => {
+
+  let height
+
   return (
-    <div className='row main-container border-full' >
-      <div className='col s3'>
+    <div className='row main-container border-full ticket-block' >
+      <div className='col s2'>
         <h5 className='ellipsis center-align'>{ticket.reference}</h5>
       </div>
       <div className='col s3' >
@@ -23,6 +27,9 @@ const TicketBlock = ({ ticket }) => {
       </div>
       <div className='col s3'>
         <h5 className='ellipsis center-align'>{ticket.status}</h5>
+      </div>
+      <div className='col s1'>
+        <a className='red btn btn-block' onClick={() => handleDelete(ticket.id)}><i className='material-icons'>delete</i></a>
       </div>
     </div>
   )
@@ -43,6 +50,11 @@ export const TicketsList = () => {
     }
   }, [ticketStatus, dispatch])
 
+  const handleDelete = id => {
+    dispatch(deleteTicket(id));
+    dispatch(fetchTickets());
+  }
+
   let content
 
   if(ticketStatus === 'loading') {
@@ -52,15 +64,15 @@ export const TicketsList = () => {
     </div>
   } else if (ticketStatus === 'succeeded') {
     content = tickets.map(ticket => (
-     <TicketBlock key={ticket.id} ticket={ticket} />
-    ))
+      <TicketBlock key={ticket.id} ticket={ticket} handleDelete={handleDelete} />
+      ))
   } else if (ticketStatus === 'failed') {
     content = <div>{error}</div>
   }
 
   if(query && search.length > 0) {
     content = search.map(ticket => (
-      <TicketBlock key={ticket.id} ticket={ticket} />
+      <TicketBlock key={ticket.id} ticket={ticket} handleDelete={handleDelete} />
      ))
   } else if (query && search.length === 0) {
     content = 

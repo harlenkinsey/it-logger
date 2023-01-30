@@ -1,11 +1,8 @@
-import React from "react";
+import React from 'react';
 import './App.css';
 
-import Footer from "./app/Footer";
-import { View } from "./features/view/View";
-
-import { ActionButton } from "./features/modal/ActionButton";
-
+import Footer from './app/Footer';
+import { View } from './features/view/View';
 import store from './app/store';
 import { Provider } from 'react-redux';
 
@@ -18,8 +15,6 @@ function App() {
         <Footer />
         
         <View />
-
-        <ActionButton />
         
       </React.Fragment>
     </Provider>

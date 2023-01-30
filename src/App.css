@@ -15,6 +15,10 @@
   padding: 0 !important;
 }
 
+.dropdown-content {
+  top: 50px !important;
+}
+
 .ellipsis {
   white-space: nowrap;
   overflow: hidden;
@@ -24,7 +28,7 @@
 
 .footer {
   width: 100%;
-  position: absolute;
+  position: fixed;
   bottom: 0;
   margin: 0;
 }
@@ -37,16 +41,56 @@
   padding: 10px;
 }
 
+hr {
+  border: 1px solid grey;
+}
+
+html, body {
+  height: 100%;
+}
+
 .main-container {
   width: 80%;
+}
+
+.modal {
+  overflow-x: hidden !important;
+}
+
+.padding-no-bottom {
+  padding-top: 2%;
+  padding-left: 2%;
+  padding-right: 2%;
+  margin: 0 !important;
 }
 
 .padding-left {
   padding-left: 10px !important;
 }
 
+.padding-right {
+  padding-right: 2% !important;
+}
+
 .search-padding {
   padding: 10px !important;
+}
+
+select {
+  appearance: none;
+  background-color: transparent;
+  border: none;
+  padding: 0 1em 0 0;
+  margin: 0;
+  width: 100%;
+  font-family: inherit;
+  font-size: inherit;
+  cursor: inherit;
+  line-height: inherit;
+}
+
+.ticket-block {
+  height: 100%;
 }
 
 @media only screen and (min-width: 0px) and (max-width: 426px) {

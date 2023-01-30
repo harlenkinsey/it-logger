@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { collection, getDocs, addDoc} from 'firebase/firestore';
+import { collection, getDocs, addDoc, deleteDoc, doc} from 'firebase/firestore';
 
 import {db} from '../../firebase-config';
 
@@ -15,13 +15,18 @@ const initialState = {
 }
 
 export const fetchTickets = createAsyncThunk('tickets/fetchTickets', async () => {
-  const response = await getDocs(ticketCollectionRef);
-  return (response.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
+  const res = await getDocs(ticketCollectionRef);
+  return (res.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
 })
 
 export const addTicket = createAsyncThunk('tickets/addTicket', async (ticket) => {
-  const response = await addDoc(ticketCollectionRef, ticket);
-  return response.data
+  const res = await addDoc(ticketCollectionRef, ticket);
+  return res;
+})
+
+export const deleteTicket = createAsyncThunk('tickets/deleteTicket', async (id) => {
+  const res = await deleteDoc(doc(db, 'tickets', id));
+  return res;
 })
 
 const ticketsSlice = createSlice({
@@ -63,10 +68,7 @@ const ticketsSlice = createSlice({
     .addCase(fetchTickets.rejected, (state, action) => {
       state.status = 'failed'
       state.error = action.error.message
-    })
-    .addCase(addTicket.fulfilled, (state, action) => {
-      state.tickets.push(action.payload)
-    })
+    }) 
   }
 })
 
