@@ -35,6 +35,7 @@ export const TicketsHeader = () => {
             <div className='col s6 padding-left'>
                 <button className='waves-effect waves-light btn-large' onClick={techniciansClicked}>Technicians</button>
                 <div className='padding-left' style={{ display: 'inline' }}>
+                    <a className='waves-effect waves-light btn-floating modal-trigger btn-large blue' href='#addTicket'><i className='material-icons'>add</i></a>
                     <AddTicketModal/>
                 </div>
             </div>
@@ -52,20 +53,6 @@ export const TicketsHeader = () => {
                         onChange={onQueryUpdated}
                     />
                 </div>
-            </div>
-        </div>
-        <div className='row main-container border-full'>
-            <div className='col s3 border-right center-align'>
-                <h5>Reference #</h5>
-            </div>
-            <div className='col s3 border-right center-align'>
-                <h5>Subject</h5>
-            </div>
-            <div className='col s3 border-right center-align'>
-                <h5>Technician</h5>
-            </div>
-            <div className='col s3 center-align'>
-                <h5>Status</h5>
             </div>
         </div>
     </div>

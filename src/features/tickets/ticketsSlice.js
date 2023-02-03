@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { collection, getDocs, addDoc, deleteDoc, doc} from 'firebase/firestore';
+import { collection, getDocs, addDoc, setDoc, deleteDoc, doc} from 'firebase/firestore';
 
 import {db} from '../../firebase-config';
 
@@ -21,6 +21,16 @@ export const fetchTickets = createAsyncThunk('tickets/fetchTickets', async () =>
 
 export const addTicket = createAsyncThunk('tickets/addTicket', async (ticket) => {
   const res = await addDoc(ticketCollectionRef, ticket);
+  return res;
+})
+
+export const updateTicket = createAsyncThunk('tickets/updateTicket', async (ticket) => {
+  
+  let sentTicket = {...ticket};
+  delete sentTicket.id;
+
+  const res = await setDoc(doc(db, 'tickets', ticket.id), sentTicket)
+  .catch(error => { console.log(error) });
   return res;
 })
 

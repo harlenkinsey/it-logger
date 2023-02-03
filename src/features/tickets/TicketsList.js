@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { TicketCard } from './TicketCard';
 import { 
   selectAllTickets, 
   selectError, 
@@ -9,31 +10,6 @@ import {
   fetchTickets,
   deleteTicket 
 } from './ticketsSlice';
-
-const TicketBlock = ({ ticket, handleDelete }) => {
-
-  let height
-
-  return (
-    <div className='row main-container border-full ticket-block' >
-      <div className='col s2'>
-        <h5 className='ellipsis center-align'>{ticket.reference}</h5>
-      </div>
-      <div className='col s3' >
-        <h5 className='ellipsis center-align'>{ticket.subject}</h5>
-      </div>
-      <div className='col s3'>
-        <h5 className='ellipsis center-align'>{ticket.technician}</h5>
-      </div>
-      <div className='col s3'>
-        <h5 className='ellipsis center-align'>{ticket.status}</h5>
-      </div>
-      <div className='col s1'>
-        <a className='red btn btn-block' onClick={() => handleDelete(ticket.id)}><i className='material-icons'>delete</i></a>
-      </div>
-    </div>
-  )
-}
 
 export const TicketsList = () => {
   const dispatch = useDispatch()
@@ -63,16 +39,20 @@ export const TicketsList = () => {
       <h4>loading...</h4>
     </div>
   } else if (ticketStatus === 'succeeded') {
-    content = tickets.map(ticket => (
-      <TicketBlock key={ticket.id} ticket={ticket} handleDelete={handleDelete} />
+    content = tickets.map((ticket, index) => (
+        <div className='col s12 m6 l3'>
+          <TicketCard key={index} ticket={ticket} id={index} handleDelete={handleDelete} />
+        </div>
       ))
   } else if (ticketStatus === 'failed') {
     content = <div>{error}</div>
   }
 
   if(query && search.length > 0) {
-    content = search.map(ticket => (
-      <TicketBlock key={ticket.id} ticket={ticket} handleDelete={handleDelete} />
+    content = search.map((ticket, index) => (
+        <div className='col s12 m6 l3'>
+          <TicketCard key={index} ticket={ticket} id={index} handleDelete={handleDelete} />
+        </div>
      ))
   } else if (query && search.length === 0) {
     content = 
@@ -82,8 +62,8 @@ export const TicketsList = () => {
   }
 
   return (
-    <section>
-      {content}
-    </section>
+    <div className='row' style={{width: '80%'}}>
+        {content}
+    </div>
   )
 }
