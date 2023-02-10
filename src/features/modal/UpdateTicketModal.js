@@ -12,57 +12,72 @@ import {
   } from '../technicians/techniciansSlice';
 
 import {
-    addTicket,
+    updateTicket,
     fetchTickets
 } from '../tickets/ticketsSlice';
 
-export const AddTicketModal = () => {
+import { 
+    selectUpdateTicket, 
+    updateTicketUpdated 
+} from '../modal/modalsSlice';
+
+export const UpdateTicketModal = () => {
 
     const dispatch = useDispatch()
     const technicians = useSelector(selectAllTechnicians)
     const technicianStatus = useSelector(selectStatus)
     const error = useSelector(selectError)
+    const updateModal = useSelector(selectUpdateTicket);
+
+    let statusOptions
 
     const [state, setState] = useState({
         success: false,
         subject: '',
         technician: '',
         details: '',
-        status: ''
+        status: '',
+        reference: ''
     });
     
     useEffect(() => {
 
-        let elems = document.querySelectorAll('.modal');
-        M.Modal.init(elems, {});
-        elems = document.querySelectorAll('select');
+        let elems = document.querySelectorAll('select');
         M.FormSelect.init(elems);
 
         if (technicianStatus === 'idle') {
             dispatch(fetchTechnicians())
         }
-        
-    }, [technicianStatus, dispatch])
+  
+    }, [technicianStatus, dispatch, updateModal])
+
+    useEffect(() => {
+
+        let elems = document.querySelectorAll('.modal');
+        M.Modal.init(elems);
+  
+    }, [dispatch])
 
     const handleFormChange = event => {
         const target = event.target;
         const value = target.value;
         const id = target.id;
 
-        setState({...state, [id]: value});
+        dispatch(updateTicketUpdated({name: id, value: value}));
     }
 
     const handleSubmit = () => {
         
-        let newTicket = {
-            subject: state.subject,
-            technician: state.technician,
-            details: state.details,
-            status: state.status,
-            reference: Math.floor(Math.random() * 1000)
+        let updatedTicket = {
+            subject: updateModal.subject,
+            technician: updateModal.technician,
+            details: updateModal.details,
+            status: updateModal.status,
+            reference: updateModal.reference,
+            id: updateModal.id
         };
         
-        dispatch(addTicket(newTicket));
+        dispatch(updateTicket(updatedTicket));
         dispatch(fetchTickets());
     }
 
@@ -87,34 +102,51 @@ export const AddTicketModal = () => {
     let optionsList
 
     if (technicianStatus === 'loading') {
-    optionsList = 
-        <option value='loading...'>
-            loading...
-        </option>
+        optionsList = 
+            <option value='loading...'>
+                loading...
+            </option>
     } else if (technicianStatus === 'succeeded') {
     
-    optionsList = 
-    
-    technicians.map(technician => (
-        <option key={technician.id} value={technician.name}>
-            {technician.name}
-        </option>
-    ))
+        optionsList = 
+        
+        technicians.map(technician => (
+            <option 
+                key={technician.id} 
+                value={technician.name}
+                selected={updateModal.technician == technician.name ? true : false}
+            >{technician.name}
+            </option>
+        ))
 
-    optionsList.unshift(
-        <option key='key' value='None'>
-            None
-        </option>
-    );
+        optionsList.unshift(
+            <option 
+                key='key' 
+                value='None'
+                selected={updateModal.technician.name == 'None' ? true : false}
+            >None
+            </option>
+        );
 
     } else if (technicianStatus === 'failed') {
     
-    optionsList = 
-        
-        <option value='Failed to load technicians...'>
-            {error}
-        </option>
+        optionsList = 
+            
+            <option value='Failed to load technicians...'>
+                {error}
+            </option>
     }
+
+    // Initializes status option list to have the first option = updateModal.status
+    let statuses = ['New', 'Assigned', 'In Progress', 'Pending', 'Resolved'];
+
+    statusOptions = statuses.map(status => (
+        <option 
+            value={status} 
+            key={status}
+            selected={updateModal.status == status ? true : false}
+        >{status}</option>
+    ))
 
     let submit
 
@@ -140,13 +172,13 @@ export const AddTicketModal = () => {
         </div>
 
     }
-
+     
     return(
         <Fragment>
-                <div id='addTicket' className='modal'>
+                <div id='updateTicketModal' className='modal'>
                     <div className='padding-no-bottom row'>
                         <div className='col s11'>
-                            <h4><b><i>Create Ticket</i></b></h4>
+                            <h4><b><i>Update Ticket #{updateModal.reference}</i></b></h4>
                         </div>
                         <div className='col s1'>
                             <a className='modal-close waves-effect waves-light btn-floating red'><i className='material-icons'>clear</i></a>
@@ -159,8 +191,10 @@ export const AddTicketModal = () => {
                             <form className='col s10' id='ticket-form'>
                                 <div className='row'>
                                     <div className='input-field col s12'>
-                                        <input id='subject' type='text' className='validate' onChange={handleFormChange}/>
-                                        <label htmlFor='subject'>Subject</label>
+                                        <input type='text' id='subject' className='validate'
+                                        value={updateModal.subject} 
+                                        onChange={handleFormChange}/>
+                                        <label className='active' htmlFor='subject'>Subject</label>
                                     </div>
                                 </div>
                                 <div className='row'>
@@ -173,18 +207,16 @@ export const AddTicketModal = () => {
                                 </div>
                                 <div className='row'>
                                     <div className='input-field col s12'>
-                                        <input id='details' type='text' className='validate' onChange={handleFormChange}/>
-                                        <label htmlFor='details'>Details</label>
+                                        <input id='details' type='text' className='validate'
+                                        value={updateModal.details} 
+                                        onChange={handleFormChange}/>
+                                        <label className='active' htmlFor='details'>Details</label>
                                     </div>
                                 </div>
                                 <div className='row'>
                                     <div className='input-field col s12'>
                                         <select id='status' name='status' onChange={handleFormChange}>
-                                            <option value='New'>New</option>
-                                            <option value='Assigned'>Assigned</option>
-                                            <option value='In Progress'>In Progress</option>
-                                            <option value='Pending'>Pending</option>
-                                            <option value='Resolved'>Resolved</option>
+                                            {statusOptions}
                                         </select>
                                         <label htmlFor='status'>Status</label>
                                     </div>

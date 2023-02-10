@@ -40,8 +40,8 @@ export const TicketsList = () => {
     </div>
   } else if (ticketStatus === 'succeeded') {
     content = tickets.map((ticket, index) => (
-        <div className='col s12 m6 l3'>
-          <TicketCard key={index} ticket={ticket} id={index} handleDelete={handleDelete} />
+        <div className='col s12 m6 l3' key={index}>
+          <TicketCard ticket={ticket} id={index} handleDelete={handleDelete} />
         </div>
       ))
   } else if (ticketStatus === 'failed') {
@@ -50,8 +50,8 @@ export const TicketsList = () => {
 
   if(query && search.length > 0) {
     content = search.map((ticket, index) => (
-        <div className='col s12 m6 l3'>
-          <TicketCard key={index} ticket={ticket} id={index} handleDelete={handleDelete} />
+        <div className='col s12 m6 l3' key={index}>
+          <TicketCard ticket={ticket} id={index} handleDelete={handleDelete} />
         </div>
      ))
   } else if (query && search.length === 0) {

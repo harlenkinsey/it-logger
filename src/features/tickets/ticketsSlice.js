@@ -20,7 +20,8 @@ export const fetchTickets = createAsyncThunk('tickets/fetchTickets', async () =>
 })
 
 export const addTicket = createAsyncThunk('tickets/addTicket', async (ticket) => {
-  const res = await addDoc(ticketCollectionRef, ticket);
+  const res = await setDoc(doc(db, 'tickets', ticket.id), ticket)
+  .catch(error => { console.log(error) });
   return res;
 })
 
@@ -31,6 +32,7 @@ export const updateTicket = createAsyncThunk('tickets/updateTicket', async (tick
 
   const res = await setDoc(doc(db, 'tickets', ticket.id), sentTicket)
   .catch(error => { console.log(error) });
+  
   return res;
 })
 

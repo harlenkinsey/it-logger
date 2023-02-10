@@ -2,16 +2,19 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   addTicket: {
-    subject: null,
-    technician: null,
-    details: null,
-    status: null
+    subject: '',
+    technician: '',
+    details: '',
+    status: '',
+    id: ''
   },
   updateTicket: {
-    subject: null,
-    technician: null,
-    details: null,
-    status: null
+    subject: '',
+    technician: '',
+    details: '',
+    status: '',
+    reference: '',
+    id: ''
   },
   deleteTicket: null
 }
@@ -25,9 +28,17 @@ const modalsSlice = createSlice({
         state.addTicket = action.payload
       }
     },
+    updateTicketChanged: {
+      reducer(state, action) {
+        state.updateTicket = action.payload;
+      }
+    },
     updateTicketUpdated: {
       reducer(state, action) {
-        state.updateTicket = action.payload
+        let name = action.payload.name;
+        let value = action.payload.value;
+
+        state.updateTicket[name] = value;
       }
     },
     deleteTicketUpdated: {
@@ -41,6 +52,6 @@ const modalsSlice = createSlice({
 export const selectAddTicket = state => state.modals.addTicket
 export const selectUpdateTicket = state => state.modals.updateTicket
 export const selectDeleteTicket = state => state.modals.deleteTicket
-export const { addTicketUpdated, updateTicketUpdated, deleteTicketUpdated } = modalsSlice.actions
+export const { addTicketUpdated, updateTicketChanged, updateTicketUpdated, deleteTicketUpdated } = modalsSlice.actions
 
 export default modalsSlice.reducer

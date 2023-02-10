@@ -1,12 +1,21 @@
 import React, { Fragment, useEffect } from 'react';
 import M from 'materialize-css';
+
+import { useDispatch } from 'react-redux';
+import { updateTicketChanged } from '../modal/modalsSlice';
  
 export const TicketCard = ({ ticket, id, handleDelete }) => {
+
+    const dispatch = useDispatch();
 
   useEffect(() => {
     let elems = document.querySelectorAll('.modal');
     M.Modal.init(elems, {});
   }, [])
+
+  const handleEdit = () => {
+    dispatch(updateTicketChanged(ticket));
+  }
 
   let color
 
@@ -16,6 +25,8 @@ export const TicketCard = ({ ticket, id, handleDelete }) => {
         color = 'red';
         break;
     case 'In Progress':
+        color = 'orange';
+        break;
     case 'Pending':
         color = 'yellow';
         break;
@@ -40,8 +51,6 @@ export const TicketCard = ({ ticket, id, handleDelete }) => {
     height: '100px'
   }
 
-  let editModalHREF = '#ticketmodal' + id.toString() + '2';
-  let editModalID = 'ticketmodal' + id.toString() + '2';
   let deleteModalHREF = '#ticketmodal' + id.toString() + '1';
   let deleteModalID = 'ticketmodal' + id.toString() + '1';
 
@@ -81,7 +90,7 @@ export const TicketCard = ({ ticket, id, handleDelete }) => {
             </div>
 
             <div className='card-action'>
-                <a className='btn blue btn-block modal-trigger' href={editModalHREF}>Edit</a>
+                <a className='btn blue btn-block modal-trigger' onClick={handleEdit} href='#updateTicketModal'>Edit</a>
             </div>
             <div className='card-reveal'>
                 <span className='card-title grey-text text-darken-4'>Details<i className='material-icons right'>close</i></span>

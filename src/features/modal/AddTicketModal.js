@@ -59,7 +59,8 @@ export const AddTicketModal = () => {
             technician: state.technician,
             details: state.details,
             status: state.status,
-            reference: Math.floor(Math.random() * 1000)
+            reference: Math.floor(Math.random() * 1000),
+            id: Math.floor(Math.random() * 1000000).toString()
         };
         
         dispatch(addTicket(newTicket));
