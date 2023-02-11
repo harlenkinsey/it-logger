@@ -16,7 +16,20 @@ const initialState = {
     reference: '',
     id: ''
   },
-  deleteTicket: null
+  deleteTicket: null,
+  addTechnician: {
+    name: '',
+    certification: '',
+    age: '',
+    id: ''
+  },
+  updateTechnician: {
+    name: '',
+    certification: '',
+    age: '',
+    id: ''
+  },
+  deleteTechnician: null
 }
 
 const modalsSlice = createSlice({
@@ -45,6 +58,29 @@ const modalsSlice = createSlice({
       reducer(state, action) {
         state.deleteTicket = action.payload
       }
+    },
+    addTechnicianUpdated: {
+      reducer(state, action) {
+        state.addTechnician = action.payload
+      }
+    },
+    updateTechnicianChanged: {
+      reducer(state, action) {
+        state.updateTechnician = action.payload;
+      }
+    },
+    updateTechnicianUpdated: {
+      reducer(state, action) {
+        let name = action.payload.name;
+        let value = action.payload.value;
+
+        state.updateTechnician[name] = value;
+      }
+    },
+    deleteTechnicianUpdated: {
+      reducer(state, action) {
+        state.deleteTechnician = action.payload
+      }
     }
   }
 })
@@ -52,6 +88,18 @@ const modalsSlice = createSlice({
 export const selectAddTicket = state => state.modals.addTicket
 export const selectUpdateTicket = state => state.modals.updateTicket
 export const selectDeleteTicket = state => state.modals.deleteTicket
-export const { addTicketUpdated, updateTicketChanged, updateTicketUpdated, deleteTicketUpdated } = modalsSlice.actions
+export const selectAddTechnician = state => state.modals.addTechnician
+export const selectUpdateTechnician = state => state.modals.updateTechnician
+export const selectDeleteTechnician = state => state.modals.deleteTechnician
+export const { 
+  addTicketUpdated, 
+  updateTicketChanged, 
+  updateTicketUpdated, 
+  deleteTicketUpdated,
+  addTechnicianUpdated, 
+  updateTechnicianChanged, 
+  updateTechnicianUpdated, 
+  deleteTechnicianUpdated
+} = modalsSlice.actions
 
 export default modalsSlice.reducer

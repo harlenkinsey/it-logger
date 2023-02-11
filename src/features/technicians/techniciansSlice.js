@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { collection, getDocs} from 'firebase/firestore';
+import { collection, getDocs, setDoc, deleteDoc, doc} from 'firebase/firestore';
 
 import {db} from '../../firebase-config';
 
@@ -17,6 +17,28 @@ const initialState = {
 export const fetchTechnicians = createAsyncThunk('technicians/fetchTechnicians', async () => {
   const response = await getDocs(technicianCollectionRef);
   return (response.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
+})
+
+export const addTechnician = createAsyncThunk('technicians/addTechnician', async (technician) => {
+  const res = await setDoc(doc(db, 'tickets', technician.id), technician)
+  .catch(error => { console.log(error) });
+  return res;
+})
+
+export const updateTechnician = createAsyncThunk('technicians/updateTechnician', async (technician) => {
+  
+  let sentTechnician = {...technician};
+  delete sentTechnician.id;
+
+  const res = await setDoc(doc(db, 'technicians', technician.id), sentTechnician)
+  .catch(error => { console.log(error) });
+  
+  return res;
+})
+
+export const deleteTechnician = createAsyncThunk('technicians/deleteTechnician', async (id) => {
+  const res = await deleteDoc(doc(db, 'technicians', id));
+  return res;
 })
 
 const techniciansSlice = createSlice({

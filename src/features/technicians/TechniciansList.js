@@ -6,24 +6,11 @@ import {
   selectStatus,
   selectSearch,
   selectQuery,
-  fetchTechnicians 
+  fetchTechnicians,
+  deleteTechnician 
 } from './techniciansSlice';
 
-const TechnicianBlock = ({ technician }) => {
-  return (
-    <div className='row main-container border-full'>
-      <div className='col s4'>
-        <h5 className='ellipsis center-align'>{technician.name}</h5>
-      </div>
-      <div className='col s4'>
-        <h5 className='ellipsis center-align'>{technician.age}</h5>
-      </div>
-      <div className='col s4'>
-        <h5 className='ellipsis center-align'>{technician.certification}</h5>
-      </div>
-    </div>
-  )
-}
+import { TechnicianCard } from './TechnicianCard';
 
 export const TechniciansList = () => {
   const dispatch = useDispatch()
@@ -40,6 +27,11 @@ export const TechniciansList = () => {
     }
   }, [technicianStatus, dispatch])
 
+  const handleDelete = id => {
+    dispatch(deleteTechnician(id));
+    dispatch(fetchTechnicians());
+  }
+
   let content
 
   if(technicianStatus === 'loading') {
@@ -49,7 +41,7 @@ export const TechniciansList = () => {
     </div>
   } else if (technicianStatus === 'succeeded') {
     content = technicians.map(technician => (
-     <TechnicianBlock key={technician.id} technician={technician} />
+     <TechnicianCard key={technician.id} technician={technician} handleDelete={handleDelete} />
     ))
   } else if (technicianStatus === 'failed') {
     content = <div>{error}</div>
@@ -57,7 +49,7 @@ export const TechniciansList = () => {
 
   if(query && search.length > 0) {
     content = search.map(technician => (
-      <TechnicianBlock key={technician.id} technician={technician} />
+      <TechnicianCard key={technician.id} technician={technician} handleDelete={handleDelete} />
      ))
   } else if (query && search.length === 0) {
     content = 
