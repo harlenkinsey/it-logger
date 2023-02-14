@@ -1,8 +1,9 @@
 import React, { useEffect, useState, Fragment } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import axios from 'axios';
-import ReCAPTCHA from 'react-google-recaptcha';
+import { useDispatch, useSelector } from 'react-redux';
+import { Recaptcha } from '../recaptcha/Recaptcha';
 import M from 'materialize-css';
+
+import { selectSuccess } from '../recaptcha/recaptchaSlice';
 
 import {
     addTechnician,
@@ -11,7 +12,8 @@ import {
 
 export const AddTechnicianModal = () => {
 
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
+    const success = useSelector(selectSuccess);
 
     const [state, setState] = useState({
         success: false,
@@ -51,27 +53,9 @@ export const AddTechnicianModal = () => {
         dispatch(fetchTechnicians());
     }
 
-    const onChange = value => {
-        
-        axios.post('https://www.google.com/recaptcha/api/siteverify', { 
-            secret: process.env.REACT_APP_SECRET_KEY, 
-            response: value
-        }, {
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
-        })
-        .then(res => {
-            setState({...state, success: res.data['success']});
-        })
-        .catch(error => {
-            console.log(error);
-        })
-    }
-
     let submit
 
-    if(state.success) {
+    if(success) {
 
         submit =
 
@@ -86,12 +70,8 @@ export const AddTechnicianModal = () => {
         submit =
         
         <div className='col s4'>
-            <ReCAPTCHA
-                sitekey={process.env.REACT_APP_SITE_KEY}
-                onChange={onChange}
-            />
+            <Recaptcha />
         </div>
-
     }
 
     return(

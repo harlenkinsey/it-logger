@@ -5,7 +5,7 @@ import { queryUpdated } from './techniciansSlice';
 import { viewUpdated } from '../view/viewSlice';
 
 
-export const TechniciansHeader = () => {
+export const TechniciansHeader = ({ recaptcha }) => {
     
     const [query, setQuery] = useState('')
     const dispatch = useDispatch() 
@@ -37,7 +37,7 @@ export const TechniciansHeader = () => {
                     <button className='waves-effect waves-light btn-large' onClick={ticketsClicked}>Tickets</button>
                     <div className='padding-left' style={{ display: 'inline' }}>
                         <a className='waves-effect waves-light btn-floating modal-trigger btn-large blue' href='#addTechnician'><i className='material-icons'>add</i></a>
-                        <AddTechnicianModal/>
+                        <AddTechnicianModal recaptcha={recaptcha}/>
                     </div>
                 </div>
                 <div className='col s1'>

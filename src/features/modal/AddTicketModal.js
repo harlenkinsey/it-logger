@@ -1,8 +1,9 @@
 import React, { useEffect, useState, Fragment } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import axios from 'axios';
-import ReCAPTCHA from 'react-google-recaptcha';
+import { Recaptcha } from '../recaptcha/Recaptcha';
 import M from 'materialize-css';
+
+import { selectSuccess } from '../recaptcha/recaptchaSlice';
 
 import { 
     selectAllTechnicians, 
@@ -19,12 +20,12 @@ import {
 export const AddTicketModal = () => {
 
     const dispatch = useDispatch()
+    const success = useSelector(selectSuccess);
     const technicians = useSelector(selectAllTechnicians)
     const technicianStatus = useSelector(selectStatus)
     const error = useSelector(selectError)
 
     const [state, setState] = useState({
-        success: false,
         subject: '',
         technician: '',
         details: '',
@@ -67,24 +68,6 @@ export const AddTicketModal = () => {
         dispatch(fetchTickets());
     }
 
-    const onChange = value => {
-        
-        axios.post('https://www.google.com/recaptcha/api/siteverify', { 
-            secret: process.env.REACT_APP_SECRET_KEY, 
-            response: value
-        }, {
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
-        })
-        .then(res => {
-            setState({...state, success: res.data['success']});
-        })
-        .catch(error => {
-            console.log(error);
-        })
-    }
-
     let optionsList
 
     if (technicianStatus === 'loading') {
@@ -119,7 +102,7 @@ export const AddTicketModal = () => {
 
     let submit
 
-    if(state.success) {
+    if(success) {
 
         submit =
 
@@ -134,10 +117,7 @@ export const AddTicketModal = () => {
         submit =
         
         <div className='col s4'>
-            <ReCAPTCHA
-                sitekey={process.env.REACT_APP_SITE_KEY}
-                onChange={onChange}
-            />
+            <Recaptcha />
         </div>
 
     }

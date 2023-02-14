@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { queryUpdated } from './ticketsSlice';
 import { viewUpdated } from '../view/viewSlice';
 
-export const TicketsHeader = () => {
+export const TicketsHeader = ({ recaptcha }) => {
 
     const [query, setQuery] = useState('')
     const dispatch = useDispatch()
@@ -36,7 +36,7 @@ export const TicketsHeader = () => {
                     <button className='waves-effect waves-light btn-large' onClick={techniciansClicked}>Technicians</button>
                     <div className='padding-left' style={{ display: 'inline' }}>
                         <a className='waves-effect waves-light btn-floating modal-trigger btn-large blue' href='#addTicket'><i className='material-icons'>add</i></a>
-                        <AddTicketModal/>
+                        <AddTicketModal recaptcha={recaptcha}/>
                     </div>
                 </div>
                 <div className='col s1'>
