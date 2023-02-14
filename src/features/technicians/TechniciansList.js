@@ -40,16 +40,20 @@ export const TechniciansList = () => {
       <h4>loading...</h4>
     </div>
   } else if (technicianStatus === 'succeeded') {
-    content = technicians.map(technician => (
-     <TechnicianCard key={technician.id} technician={technician} handleDelete={handleDelete} />
+    content = technicians.map((technician, index) => (
+    <div className='col s12 m6 l3' key={index}>
+      <TechnicianCard id={technician.id} technician={technician} handleDelete={handleDelete} />
+    </div>
     ))
   } else if (technicianStatus === 'failed') {
     content = <div>{error}</div>
   }
 
   if(query && search.length > 0) {
-    content = search.map(technician => (
-      <TechnicianCard key={technician.id} technician={technician} handleDelete={handleDelete} />
+    content = search.map((technician, index) => (
+      <div className='col s12 m6 l3' key={index}>
+        <TechnicianCard id={technician.id} technician={technician} handleDelete={handleDelete} />
+      </div>
      ))
   } else if (query && search.length === 0) {
     content = 
@@ -59,8 +63,8 @@ export const TechniciansList = () => {
   }
 
   return (
-    <section>
-      {content}
-    </section>
+    <div className='row' style={{width: '80%'}}>
+        {content}
+    </div>
   )
 }

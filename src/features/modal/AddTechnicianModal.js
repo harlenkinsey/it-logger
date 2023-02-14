@@ -42,8 +42,7 @@ export const AddTechnicianModal = () => {
     const handleSubmit = () => {
         
         let newTechnician = {
-            firstName: state.firstName,
-            lastName: state.lastName,
+            name: state.firstName + ' ' + state.lastName,
             certification: state.certification,
             age: state.age,
             id: Math.floor(Math.random() * 1000000).toString()

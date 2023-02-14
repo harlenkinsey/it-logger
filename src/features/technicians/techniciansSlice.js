@@ -20,7 +20,7 @@ export const fetchTechnicians = createAsyncThunk('technicians/fetchTechnicians',
 })
 
 export const addTechnician = createAsyncThunk('technicians/addTechnician', async (technician) => {
-  const res = await setDoc(doc(db, 'tickets', technician.id), technician)
+  const res = await setDoc(doc(db, 'technicians', technician.id), technician)
   .catch(error => { console.log(error) });
   return res;
 })

@@ -8,32 +8,32 @@ export const TechnicianCard = ({ technician, id, handleDelete }) => {
 
     const dispatch = useDispatch();
 
-  useEffect(() => {
+    useEffect(() => {
     let elems = document.querySelectorAll('.modal');
     M.Modal.init(elems, {});
-  }, [])
+    }, [])
 
-  const handleEdit = () => {
+    const handleEdit = () => {
     dispatch(updateTechnicianChanged(technician));
-  }
+    }
 
-  const bodyStyles = {
+    const bodyStyles = {
     padding: '10px',
     lineHeight: 0
-  }
-  const headerStyles = {
+    }
+    const headerStyles = {
     paddingLeft: '10px',
     paddingRight: '10px',
     lineHeight: 0
-  }
-  const spacingStyles = {
+    }
+    const spacingStyles = {
     height: '100px'
-  }
+    }
 
-  let deleteModalHREF = '#technicianmodal' + id.toString() + '1';
-  let deleteModalID = 'technicianmodal' + id.toString() + '1';
+    let deleteModalHREF = '#technicianmodal' + id.toString() + '1';
+    let deleteModalID = 'technicianmodal' + id.toString() + '1';
 
-  return (
+    return (
 
     <Fragment>
         <div className='card medium sticky-action'>
@@ -59,13 +59,13 @@ export const TechnicianCard = ({ technician, id, handleDelete }) => {
                         <p><u>Age:</u></p>
                     </div>
                     <div className='row'>
-                        <p>{technician.Age}</p>
+                        <p>{technician.age}</p>
                     </div>
                 </div>
             </div>
 
             <div className='card-action'>
-                <a className='btn blue btn-block modal-trigger' onClick={handleEdit} href='#updateTicketModal'>Edit</a>
+                <a className='btn blue btn-block modal-trigger' onClick={handleEdit} href='#updateTechnicianModal'>Edit</a>
             </div>
         </div>
 
@@ -89,5 +89,5 @@ export const TechnicianCard = ({ technician, id, handleDelete }) => {
         </div>
     </Fragment>
 
-  )
-  }
+    )
+}

@@ -8,6 +8,7 @@ import { TechniciansHeader } from '../technicians/TechniciansHeader';
 import { TicketsList } from '../tickets/TicketsList';
 import { TicketsHeader } from '../tickets/TicketsHeader';
 import { UpdateTicketModal } from '../modal/UpdateTicketModal';
+import { UpdateTechnicianModal } from '../modal/UpdateTechnicianModal.js';
 
 export const View = () => {
 
@@ -27,6 +28,7 @@ export const View = () => {
             <Fragment>
                 <TechniciansHeader />
                 <TechniciansList />
+                <UpdateTechnicianModal />
             </Fragment>
     }
 
