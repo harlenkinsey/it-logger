@@ -86,9 +86,8 @@ const techniciansSlice = createSlice({
 
 const stringifyTechnician = (technician) => {
 
-  let split = technician.name.split(' ').concat(technician.certification.split(' '));
-  
-  let technicianStringified = [technician.age.toString()].concat(split)
+  let name = technician.firstName + ' ' + technician.lastName;
+  let technicianStringified = [technician.age.toString()].concat(name);
   let technicianStringifiedLower = technicianStringified.map(element => element.toLowerCase())
   
   return technicianStringifiedLower

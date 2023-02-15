@@ -10,10 +10,17 @@ import {
     fetchTechnicians
 } from '../technicians/techniciansSlice';
 
+import {
+    addTechnicianChanged,
+    addTechnicianUpdated,
+    selectAddTechnician
+} from '../modal/modalsSlice';
+
 export const AddTechnicianModal = () => {
 
     const dispatch = useDispatch();
     const success = useSelector(selectSuccess);
+    const addModal = useSelector(selectAddTechnician);
 
     const [state, setState] = useState({
         success: false,
@@ -36,13 +43,21 @@ export const AddTechnicianModal = () => {
         const value = target.value;
         const id = target.id;
 
-        setState({...state, [id]: value});
+        dispatch(addTechnicianUpdated({name: id, value: value}));
     }
 
     const handleSubmit = () => {
+
+        let emptyTechnician = {
+            firstName: '',
+            lastName: '',
+            certification: '',
+            age: '',
+            id: ''
+        }
         
         let newTechnician = {
-            name: state.firstName + ' ' + state.lastName,
+            name: addModal.firstName + ' ' + addModal.lastName,
             certification: state.certification,
             age: state.age,
             id: Math.floor(Math.random() * 1000000).toString()
@@ -50,6 +65,7 @@ export const AddTechnicianModal = () => {
         
         dispatch(addTechnician(newTechnician));
         dispatch(fetchTechnicians());
+        dispatch(addTechnicianChanged(emptyTechnician));
     }
 
     let submit
@@ -91,25 +107,25 @@ export const AddTechnicianModal = () => {
                             <form className='col s10' id='technician-form'>
                                 <div className='row'>
                                     <div className='input-field col s12'>
-                                        <input id='firstName' type='text' className='validate' onChange={handleFormChange}/>
+                                        <input id='firstName' type='text' className='validate' onChange={handleFormChange} value={addModal.firstName}/>
                                         <label htmlFor='firstName'>First Name</label>
                                     </div>
                                 </div>
                                 <div className='row'>
                                     <div className='input-field col s12'>
-                                    <input id='lastName' type='text' className='validate' onChange={handleFormChange}/>
+                                    <input id='lastName' type='text' className='validate' onChange={handleFormChange} value={addModal.lastName}/>
                                         <label htmlFor='lastName'>Last Name</label>
                                     </div>
                                 </div>
                                 <div className='row'>
                                     <div className='input-field col s12'>
-                                        <input id='certification' type='text' className='validate' onChange={handleFormChange}/>
+                                        <input id='certification' type='text' className='validate' onChange={handleFormChange} value={addModal.certification}/>
                                         <label htmlFor='certification'>Certification</label>
                                     </div>
                                 </div>
                                 <div className='row'>
                                     <div className='input-field col s12'>
-                                        <input id='age' type='text' className='validate' onChange={handleFormChange}/>
+                                        <input id='age' type='text' className='validate' onChange={handleFormChange} value={addModal.age}/>
                                         <label htmlFor='age'>Age</label>
                                     </div>
                                 </div>

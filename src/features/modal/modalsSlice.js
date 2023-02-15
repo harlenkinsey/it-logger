@@ -16,20 +16,20 @@ const initialState = {
     reference: '',
     id: ''
   },
-  deleteTicket: null,
   addTechnician: {
-    name: '',
+    firstName: '',
+    lastName: '',
     certification: '',
     age: '',
     id: ''
   },
   updateTechnician: {
-    name: '',
+    firstName: '',
+    lastName: '',
     certification: '',
     age: '',
     id: ''
-  },
-  deleteTechnician: null
+  }
 }
 
 const modalsSlice = createSlice({
@@ -59,9 +59,17 @@ const modalsSlice = createSlice({
         state.deleteTicket = action.payload
       }
     },
+    addTechnicianChanged: {
+      reducer(state, action) {
+        state.addTicket = action.payload;
+      }
+    },
     addTechnicianUpdated: {
       reducer(state, action) {
-        state.addTechnician = action.payload
+        let name = action.payload.name;
+        let value = action.payload.value;
+
+        state.updateTechnician[name] = value;
       }
     },
     updateTechnicianChanged: {
@@ -96,6 +104,7 @@ export const {
   updateTicketChanged, 
   updateTicketUpdated, 
   deleteTicketUpdated,
+  addTechnicianChanged,
   addTechnicianUpdated, 
   updateTechnicianChanged, 
   updateTechnicianUpdated, 

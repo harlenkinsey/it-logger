@@ -11,7 +11,8 @@ import {
 
 import { 
     selectUpdateTechnician, 
-    updateTechnicianUpdated 
+    updateTechnicianUpdated,
+    updateTechnicianChanged 
 } from '../modal/modalsSlice';
 
 export const UpdateTechnicianModal = () => {
@@ -21,7 +22,8 @@ export const UpdateTechnicianModal = () => {
 
     const [state, setState] = useState({
         success: false,
-        name: '',
+        firstName: '',
+        lastName: '',
         certification: '',
         age: ''
     });
@@ -49,9 +51,17 @@ export const UpdateTechnicianModal = () => {
     }
 
     const handleSubmit = () => {
+
+        let emptyTechnician = {
+            firstName: '',
+            lastName: '',
+            certification: '',
+            age: '',
+            id: ''
+        }
         
         let updatedTechnician = {
-            name: updateModal.name,
+            name: updateModal.firstName + ' ' + updateModal.lastName,
             certification: updateModal.certification,
             age: updateModal.age,
             id: updateModal.id
@@ -59,6 +69,7 @@ export const UpdateTechnicianModal = () => {
         
         dispatch(updateTechnician(updatedTechnician));
         dispatch(fetchTechnicians());
+        dispatch(updateTechnicianChanged(emptyTechnician));
     }
 
     const onChange = value => {
@@ -123,7 +134,7 @@ export const UpdateTechnicianModal = () => {
                                 <div className='row'>
                                     <div className='input-field col s12'>
                                         <input id='firstName' type='text' className='validate'
-                                        value={updateModal.name.split(' ')[0]} 
+                                        value={updateModal.firstName} 
                                         onChange={handleFormChange}/>
                                         <label className='active' htmlFor='firstName'>First Name</label>
                                     </div>
@@ -131,7 +142,7 @@ export const UpdateTechnicianModal = () => {
                                 <div className='row'>
                                     <div className='input-field col s12'>
                                         <input id='lastName' type='text' className='validate'
-                                        value={updateModal.name.split(' ')[1]} 
+                                        value={updateModal.lastName} 
                                         onChange={handleFormChange}/>
                                         <label className='active' htmlFor='lastName'>Last Name</label>
                                     </div>

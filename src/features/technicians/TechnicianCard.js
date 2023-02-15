@@ -14,7 +14,7 @@ export const TechnicianCard = ({ technician, id, handleDelete }) => {
     }, [])
 
     const handleEdit = () => {
-    dispatch(updateTechnicianChanged(technician));
+        dispatch(updateTechnicianChanged(technician));
     }
 
     const bodyStyles = {
@@ -41,7 +41,7 @@ export const TechnicianCard = ({ technician, id, handleDelete }) => {
             <div className='activator'>
                 <div className='row' style={headerStyles}>
                     <div className='col s10'>
-                    <h5>{technician.name}</h5>
+                    <h5>{technician.firstName + ' ' + technician.lastName}</h5>
                     </div>
                     <div className='col s2'>
                         <a className='btn btn-floating red modal-trigger' href={deleteModalHREF}><i className='material-icons'>delete</i></a>
