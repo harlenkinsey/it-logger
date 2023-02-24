@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import M from 'materialize-css';
 
 import { useDispatch } from 'react-redux';
@@ -9,13 +9,9 @@ export const TechnicianCard = ({ technician, id, handleDelete }) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-    let elems = document.querySelectorAll('.modal');
-    M.Modal.init(elems, {});
-    }, [])
-
-    const handleEdit = () => {
-        dispatch(updateTechnicianChanged(technician));
-    }
+        let elems = document.querySelectorAll('.modal');
+        M.Modal.init(elems, {});
+    }, [dispatch])
 
     const bodyStyles = {
     padding: '10px',
@@ -65,7 +61,7 @@ export const TechnicianCard = ({ technician, id, handleDelete }) => {
             </div>
 
             <div className='card-action'>
-                <a className='btn blue btn-block modal-trigger' onClick={handleEdit} href='#updateTechnicianModal'>Edit</a>
+                <a className='btn blue btn-block modal-trigger' onClick={() => dispatch(updateTechnicianChanged(technician))} href='#updateTechnicianModal'>Edit</a>
             </div>
         </div>
 
