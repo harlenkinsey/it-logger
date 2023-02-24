@@ -36,14 +36,17 @@ export const AddTicketModal = () => {
 
         let elems = document.querySelectorAll('.modal');
         M.Modal.init(elems, {});
-        elems = document.querySelectorAll('select');
-        M.FormSelect.init(elems);
 
         if (technicianStatus === 'idle') {
             dispatch(fetchTechnicians())
         }
         
-    }, [technicianStatus, dispatch])
+    }, [dispatch])
+
+    useEffect(() => {
+        let elems = document.querySelectorAll('select');
+        M.FormSelect.init(elems);
+    }, [state])
 
     const handleFormChange = event => {
         const target = event.target;
@@ -51,6 +54,18 @@ export const AddTicketModal = () => {
         const id = target.id;
 
         setState({...state, [id]: value});
+    }
+
+    const clearState = () => {
+        
+        let emptyTicket = {
+            subject: '',
+            technician: '',
+            details: '',
+            status: ''
+        }
+
+        setState(emptyTicket);
     }
 
     const handleSubmit = () => {
@@ -66,6 +81,7 @@ export const AddTicketModal = () => {
         
         dispatch(addTicket(newTicket));
         dispatch(fetchTickets());
+        clearState();
     }
 
     let optionsList
@@ -80,8 +96,8 @@ export const AddTicketModal = () => {
     optionsList = 
     
     technicians.map(technician => (
-        <option key={technician.id} value={technician.name}>
-            {technician.name}
+        <option key={technician.id} value={technician.firstName + ' ' + technician.lastName}>
+            {technician.firstName + ' ' + technician.lastName}
         </option>
     ))
 
@@ -116,7 +132,7 @@ export const AddTicketModal = () => {
     
         submit =
         
-        <div className='col s4'>
+        <div className='col s11 m8 right'>
             <Recaptcha />
         </div>
 
@@ -126,11 +142,11 @@ export const AddTicketModal = () => {
         <Fragment>
                 <div id='addTicket' className='modal'>
                     <div className='padding-no-bottom row'>
-                        <div className='col s11'>
+                        <div className='col s10 m11'>
                             <h4><b><i>Create Ticket</i></b></h4>
                         </div>
-                        <div className='col s1'>
-                            <a className='modal-close waves-effect waves-light btn-floating red'><i className='material-icons'>clear</i></a>
+                        <div className='col s2 m1'>
+                            <a className='modal-close waves-effect waves-light btn-floating red' onClick={clearState}><i className='material-icons'>clear</i></a>
                         </div>
                     </div>
                     <hr></hr>
@@ -140,13 +156,13 @@ export const AddTicketModal = () => {
                             <form className='col s10' id='ticket-form'>
                                 <div className='row'>
                                     <div className='input-field col s12'>
-                                        <input id='subject' type='text' className='validate' onChange={handleFormChange}/>
+                                        <input id='subject' type='text' value={state.subject}  className='validate' onChange={handleFormChange}/>
                                         <label htmlFor='subject'>Subject</label>
                                     </div>
                                 </div>
                                 <div className='row'>
                                     <div className='input-field col s12'>
-                                        <select name='technician' id='technician' onChange={handleFormChange}>
+                                        <select name='technician' value={state.technician}  id='technician' onChange={handleFormChange}>
                                             {optionsList}
                                         </select>
                                         <label htmlFor='technician'>Technician</label>
@@ -154,13 +170,13 @@ export const AddTicketModal = () => {
                                 </div>
                                 <div className='row'>
                                     <div className='input-field col s12'>
-                                        <input id='details' type='text' className='validate' onChange={handleFormChange}/>
+                                        <input id='details' type='text' value={state.details} className='validate' onChange={handleFormChange}/>
                                         <label htmlFor='details'>Details</label>
                                     </div>
                                 </div>
                                 <div className='row'>
                                     <div className='input-field col s12'>
-                                        <select id='status' name='status' onChange={handleFormChange}>
+                                        <select id='status' name='status'  value={state.status}onChange={handleFormChange}>
                                             <option value='New'>New</option>
                                             <option value='Assigned'>Assigned</option>
                                             <option value='In Progress'>In Progress</option>
