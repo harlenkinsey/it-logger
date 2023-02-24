@@ -13,22 +13,23 @@ import { UpdateTechnicianModal } from '../modal/UpdateTechnicianModal.js';
 export const View = () => {
 
     const view = useSelector(selectView);
-    let content
 
+    let content
+    
     if(view === 'tickets')
     {
         content =
             <Fragment>
                 <TicketsHeader />
-                <TicketsList />
                 <UpdateTicketModal />
+                <TicketsList />
             </Fragment>
     } else {
         content =
             <Fragment>
                 <TechniciansHeader />
-                <TechniciansList />
                 <UpdateTechnicianModal />
+                <TechniciansList />
             </Fragment>
     }
 
