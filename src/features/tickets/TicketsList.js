@@ -11,7 +11,7 @@ import {
   deleteTicket 
 } from './ticketsSlice';
 
-export const TicketsList = () => {
+export const TicketsList = ({ handleEdit }) => {
   const dispatch = useDispatch()
   const tickets = useSelector(selectAllTickets)
   const search = useSelector(selectSearch)
@@ -41,7 +41,7 @@ export const TicketsList = () => {
   } else if (ticketStatus === 'succeeded') {
     content = tickets.map((ticket, index) => (
         <div className='col s12 m6 l3' key={index}>
-          <TicketCard ticket={ticket} id={index} handleDelete={handleDelete} />
+          <TicketCard ticket={ticket} id={index} handleDelete={handleDelete} handleEdit={handleEdit} />
         </div>
       ))
   } else if (ticketStatus === 'failed') {
@@ -51,7 +51,7 @@ export const TicketsList = () => {
   if(query && search.length > 0) {
     content = search.map((ticket, index) => (
         <div className='col s12 m6 l3' key={index}>
-          <TicketCard ticket={ticket} id={index} handleDelete={handleDelete} />
+          <TicketCard ticket={ticket} id={index} handleDelete={handleDelete} handleEdit={handleEdit} />
         </div>
      ))
   } else if (query && search.length === 0) {
