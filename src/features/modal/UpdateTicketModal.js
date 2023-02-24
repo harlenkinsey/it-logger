@@ -16,9 +16,9 @@ import {
     fetchTickets
 } from '../tickets/ticketsSlice';
 
-import { 
-    selectUpdateTicket, 
-    updateTicketUpdated 
+import {
+    selectUpdateTicket,
+    updateTicketChanged
 } from '../modal/modalsSlice';
 
 export const UpdateTicketModal = () => {
@@ -27,18 +27,11 @@ export const UpdateTicketModal = () => {
     const technicians = useSelector(selectAllTechnicians)
     const technicianStatus = useSelector(selectStatus)
     const error = useSelector(selectError)
-    const updateModal = useSelector(selectUpdateTicket);
+    const UT = useSelector(selectUpdateTicket)
+
+    const [success, setSuccess] = useState(false)
 
     let statusOptions
-
-    const [state, setState] = useState({
-        success: false,
-        subject: '',
-        technician: '',
-        details: '',
-        status: '',
-        reference: ''
-    });
     
     useEffect(() => {
 
@@ -49,7 +42,7 @@ export const UpdateTicketModal = () => {
             dispatch(fetchTechnicians())
         }
   
-    }, [technicianStatus, dispatch, updateModal])
+    }, [technicianStatus, dispatch, UT])
 
     useEffect(() => {
 
@@ -63,21 +56,11 @@ export const UpdateTicketModal = () => {
         const value = target.value;
         const id = target.id;
 
-        dispatch(updateTicketUpdated({name: id, value: value}));
+        dispatch(updateTicketChanged({...UT, [id]: value}));
     }
 
     const handleSubmit = () => {
-        
-        let updatedTicket = {
-            subject: updateModal.subject,
-            technician: updateModal.technician,
-            details: updateModal.details,
-            status: updateModal.status,
-            reference: updateModal.reference,
-            id: updateModal.id
-        };
-        
-        dispatch(updateTicket(updatedTicket));
+        dispatch(updateTicket(UT));
         dispatch(fetchTickets());
     }
 
@@ -92,7 +75,7 @@ export const UpdateTicketModal = () => {
             }
         })
         .then(res => {
-            setState({...state, success: res.data['success']});
+            setSuccess(res.data['success']);
         })
         .catch(error => {
             console.log(error);
@@ -113,9 +96,9 @@ export const UpdateTicketModal = () => {
         technicians.map(technician => (
             <option 
                 key={technician.id} 
-                value={technician.name}
-                selected={updateModal.technician == technician.name ? true : false}
-            >{technician.name}
+                value={technician.firstName + ' ' + technician.lastName}
+                selected={UT.technician == (technician.firstName + ' ' + technician.lastName) ? true : false}
+            >{technician.firstName + ' ' + technician.lastName}
             </option>
         ))
 
@@ -123,7 +106,7 @@ export const UpdateTicketModal = () => {
             <option 
                 key='key' 
                 value='None'
-                selected={updateModal.technician.name == 'None' ? true : false}
+                selected={UT.technician == 'None' ? true : false}
             >None
             </option>
         );
@@ -137,20 +120,20 @@ export const UpdateTicketModal = () => {
             </option>
     }
 
-    // Initializes status option list to have the first option = updateModal.status
+    // Initializes status option list to have the first option = state.status
     let statuses = ['New', 'Assigned', 'In Progress', 'Pending', 'Resolved'];
 
     statusOptions = statuses.map(status => (
         <option 
             value={status} 
             key={status}
-            selected={updateModal.status == status ? true : false}
+            selected={UT.status == status ? true : false}
         >{status}</option>
     ))
 
     let submit
 
-    if(state.success) {
+    if(success) {
 
         submit =
 
@@ -164,7 +147,7 @@ export const UpdateTicketModal = () => {
     
         submit =
         
-        <div className='col s4'>
+        <div className='col s11 m8 right'>
             <ReCAPTCHA
                 sitekey={process.env.REACT_APP_SITE_KEY}
                 onChange={onChange}
@@ -177,10 +160,10 @@ export const UpdateTicketModal = () => {
         <Fragment>
                 <div id='updateTicketModal' className='modal'>
                     <div className='padding-no-bottom row'>
-                        <div className='col s11'>
-                            <h4><b><i>Update Ticket #{updateModal.reference}</i></b></h4>
+                        <div className='col s10 m11'>
+                            <h4><b><i>Update Ticket #{UT.reference}</i></b></h4>
                         </div>
-                        <div className='col s1'>
+                        <div className='col s2 m1'>
                             <a className='modal-close waves-effect waves-light btn-floating red'><i className='material-icons'>clear</i></a>
                         </div>
                     </div>
@@ -192,7 +175,7 @@ export const UpdateTicketModal = () => {
                                 <div className='row'>
                                     <div className='input-field col s12'>
                                         <input type='text' id='subject' className='validate'
-                                        value={updateModal.subject} 
+                                        value={UT.subject} 
                                         onChange={handleFormChange}/>
                                         <label className='active' htmlFor='subject'>Subject</label>
                                     </div>
@@ -208,7 +191,7 @@ export const UpdateTicketModal = () => {
                                 <div className='row'>
                                     <div className='input-field col s12'>
                                         <input id='details' type='text' className='validate'
-                                        value={updateModal.details} 
+                                        value={UT.details} 
                                         onChange={handleFormChange}/>
                                         <label className='active' htmlFor='details'>Details</label>
                                     </div>
