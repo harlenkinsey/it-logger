@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import M from 'materialize-css';
 
 import { useDispatch } from 'react-redux';
@@ -11,11 +11,8 @@ export const TicketCard = ({ ticket, id, handleDelete }) => {
   useEffect(() => {
     let elems = document.querySelectorAll('.modal');
     M.Modal.init(elems, {});
-  }, [])
 
-  const handleEdit = () => {
-    dispatch(updateTicketChanged(ticket));
-  }
+  }, [dispatch])
 
   let color
 
@@ -90,7 +87,7 @@ export const TicketCard = ({ ticket, id, handleDelete }) => {
             </div>
 
             <div className='card-action'>
-                <a className='btn blue btn-block modal-trigger' onClick={handleEdit} href='#updateTicketModal'>Edit</a>
+                <a className='btn blue btn-block modal-trigger' onClick={() => dispatch(updateTicketChanged(ticket))} href='#updateTicketModal'>Edit</a>
             </div>
             <div className='card-reveal'>
                 <span className='card-title grey-text text-darken-4'>Details<i className='material-icons right'>close</i></span>
