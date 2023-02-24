@@ -153,6 +153,15 @@ select {
     bottom: 60px;
   }
 
+  .header-btn {
+    width: 40px !important;
+    height: 40px !important;
+  }
+
+  .header-btn i {
+    line-height: 40px !important;
+  }
+  
   .main-container {
     width: 100%;
   }
