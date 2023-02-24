@@ -59,6 +59,7 @@ const ticketsSlice = createSlice({
               if(state.ticketsStringified[x][y] === query[z]) {
                 matches.push(state.tickets[x]);
               }
+              break;
             }
           }
         }
@@ -86,9 +87,10 @@ const ticketsSlice = createSlice({
 
 const stringifyTicket = (ticket) => {
 
-  let split = ticket.technician.split(' ').concat(ticket.details.split(' ')).concat(ticket.subject.split(' '));
+  let split = ticket.technician.split(' ').concat(ticket.details.split(' ')).concat(ticket.subject.split(' ')).concat(ticket.status.split(' '));
   
-  let ticketStringified = [ticket.reference.toString(), ticket.status].concat(split)
+  let ticketStringified = [ticket.reference.toString()].concat(split)
+  
   let ticketStringifiedLower = ticketStringified.map(element => element.toLowerCase())
   
   return ticketStringifiedLower
