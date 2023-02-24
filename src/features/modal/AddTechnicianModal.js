@@ -10,17 +10,10 @@ import {
     fetchTechnicians
 } from '../technicians/techniciansSlice';
 
-import {
-    addTechnicianChanged,
-    addTechnicianUpdated,
-    selectAddTechnician
-} from '../modal/modalsSlice';
-
 export const AddTechnicianModal = () => {
 
     const dispatch = useDispatch();
     const success = useSelector(selectSuccess);
-    const addModal = useSelector(selectAddTechnician);
 
     const [state, setState] = useState({
         success: false,
@@ -43,11 +36,11 @@ export const AddTechnicianModal = () => {
         const value = target.value;
         const id = target.id;
 
-        dispatch(addTechnicianUpdated({name: id, value: value}));
+        setState({...state, [id]: value});
     }
 
-    const handleSubmit = () => {
-
+    const clearState = () => {
+        
         let emptyTechnician = {
             firstName: '',
             lastName: '',
@@ -55,17 +48,23 @@ export const AddTechnicianModal = () => {
             age: '',
             id: ''
         }
-        
+
+        setState(emptyTechnician);
+    }
+
+    const handleSubmit = () => {
+
         let newTechnician = {
-            name: addModal.firstName + ' ' + addModal.lastName,
+            firstName: state.firstName,
+            lastName: state.lastName,
             certification: state.certification,
             age: state.age,
             id: Math.floor(Math.random() * 1000000).toString()
         };
         
         dispatch(addTechnician(newTechnician));
+        clearState();
         dispatch(fetchTechnicians());
-        dispatch(addTechnicianChanged(emptyTechnician));
     }
 
     let submit
@@ -84,7 +83,7 @@ export const AddTechnicianModal = () => {
     
         submit =
         
-        <div className='col s4'>
+        <div className='col s11 m8 right'>
             <Recaptcha />
         </div>
     }
@@ -93,11 +92,11 @@ export const AddTechnicianModal = () => {
         <Fragment>
                 <div id='addTechnician' className='modal'>
                     <div className='padding-no-bottom row'>
-                        <div className='col s11'>
+                        <div className='col s10 m11'>
                             <h4><b><i>Add Technician</i></b></h4>
                         </div>
-                        <div className='col s1'>
-                            <a className='modal-close waves-effect waves-light btn-floating red'><i className='material-icons'>clear</i></a>
+                        <div className='col s2 m1'>
+                            <a className='modal-close waves-effect waves-light btn-floating red' onClick={clearState}><i className='material-icons'>clear</i></a>
                         </div>
                     </div>
                     <hr></hr>
@@ -107,25 +106,25 @@ export const AddTechnicianModal = () => {
                             <form className='col s10' id='technician-form'>
                                 <div className='row'>
                                     <div className='input-field col s12'>
-                                        <input id='firstName' type='text' className='validate' onChange={handleFormChange} value={addModal.firstName}/>
+                                        <input id='firstName' type='text' className='validate' onChange={handleFormChange} value={state.firstName}/>
                                         <label htmlFor='firstName'>First Name</label>
                                     </div>
                                 </div>
                                 <div className='row'>
                                     <div className='input-field col s12'>
-                                    <input id='lastName' type='text' className='validate' onChange={handleFormChange} value={addModal.lastName}/>
+                                    <input id='lastName' type='text' className='validate' onChange={handleFormChange} value={state.lastName}/>
                                         <label htmlFor='lastName'>Last Name</label>
                                     </div>
                                 </div>
                                 <div className='row'>
                                     <div className='input-field col s12'>
-                                        <input id='certification' type='text' className='validate' onChange={handleFormChange} value={addModal.certification}/>
+                                        <input id='certification' type='text' className='validate' onChange={handleFormChange} value={state.certification}/>
                                         <label htmlFor='certification'>Certification</label>
                                     </div>
                                 </div>
                                 <div className='row'>
                                     <div className='input-field col s12'>
-                                        <input id='age' type='text' className='validate' onChange={handleFormChange} value={addModal.age}/>
+                                        <input id='age' type='text' className='validate' onChange={handleFormChange} value={state.age}/>
                                         <label htmlFor='age'>Age</label>
                                     </div>
                                 </div>
