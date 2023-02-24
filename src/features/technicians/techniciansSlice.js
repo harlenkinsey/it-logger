@@ -59,6 +59,7 @@ const techniciansSlice = createSlice({
               if(state.techniciansStringified[x][y] === query[z]) {
                 matches.push(state.technicians[x]);
               }
+              break;
             }
           }
         }
@@ -86,8 +87,8 @@ const techniciansSlice = createSlice({
 
 const stringifyTechnician = (technician) => {
 
-  let name = technician.firstName + ' ' + technician.lastName;
-  let technicianStringified = [technician.age.toString()].concat(name);
+  let name = [technician.firstName].concat([technician.lastName]);
+  let technicianStringified = [technician.age.toString()].concat(name).concat([technician.certification]);
   let technicianStringifiedLower = technicianStringified.map(element => element.toLowerCase())
   
   return technicianStringifiedLower
