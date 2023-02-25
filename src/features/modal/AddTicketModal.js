@@ -40,7 +40,7 @@ export const AddTicketModal = () => {
         if (technicianStatus === 'idle') {
             dispatch(fetchTechnicians())
         }
-        
+
     }, [dispatch])
 
     useEffect(() => {
