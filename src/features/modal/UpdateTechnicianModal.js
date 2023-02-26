@@ -1,7 +1,5 @@
-import React, { useEffect, Fragment, useState } from 'react';
+import React, { useEffect, Fragment } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
-import ReCAPTCHA from 'react-google-recaptcha';
 import M from 'materialize-css';
 
 import { 
@@ -17,8 +15,6 @@ export const UpdateTechnicianModal = () => {
 
     const dispatch = useDispatch();
     const UT = useSelector(selectUpdateTechnician);
-
-    const [success, setSuccess] = useState(false)
     
     useEffect(() => {
 
@@ -54,49 +50,6 @@ export const UpdateTechnicianModal = () => {
         
         dispatch(updateTechnician(updatedTechnician));
         dispatch(fetchTechnicians());
-    }
-
-    const onChange = value => {
-        
-        axios.post('https://www.google.com/recaptcha/api/siteverify', { 
-            secret: process.env.REACT_APP_SECRET_KEY, 
-            response: value
-        }, {
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
-        })
-        .then(res => {
-            setSuccess(res.data['success'])
-        })
-        .catch(error => {
-            console.log(error);
-        })
-    }
-
-    let submit
-
-    if(success) {
-
-        submit =
-
-        <div className='col s3'>
-            <div className='modal-footer'>
-                <a className='left modal-close waves-effect waves-green btn' onClick={handleSubmit}>Submit</a>
-            </div>
-        </div>
-
-    } else {
-    
-        submit =
-        
-        <div className='col s11 m8 right'>
-            <ReCAPTCHA
-                sitekey={process.env.REACT_APP_SITE_KEY}
-                onChange={onChange}
-            />
-        </div>
-
     }
      
     return(
@@ -152,7 +105,11 @@ export const UpdateTechnicianModal = () => {
                         </div>
                         <div className='row'>
                             <div className='col s5'></div>
-                            {submit}
+                            <div className='col s3'>
+                                <div className='modal-footer'>
+                                    <a className='left modal-close waves-effect waves-green btn' onClick={handleSubmit}>Submit</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

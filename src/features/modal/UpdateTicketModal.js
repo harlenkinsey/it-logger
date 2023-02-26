@@ -1,7 +1,5 @@
-import React, { useEffect, useState, Fragment } from 'react';
+import React, { useEffect, Fragment } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import axios from 'axios';
-import ReCAPTCHA from 'react-google-recaptcha';
 import M from 'materialize-css';
 
 import { 
@@ -28,8 +26,6 @@ export const UpdateTicketModal = () => {
     const technicianStatus = useSelector(selectStatus)
     const error = useSelector(selectError)
     const UT = useSelector(selectUpdateTicket)
-
-    const [success, setSuccess] = useState(false)
 
     let statusOptions
     
@@ -62,24 +58,6 @@ export const UpdateTicketModal = () => {
     const handleSubmit = () => {
         dispatch(updateTicket(UT));
         dispatch(fetchTickets());
-    }
-
-    const onChange = value => {
-        
-        axios.post('https://www.google.com/recaptcha/api/siteverify', { 
-            secret: process.env.REACT_APP_SECRET_KEY, 
-            response: value
-        }, {
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
-        })
-        .then(res => {
-            setSuccess(res.data['success']);
-        })
-        .catch(error => {
-            console.log(error);
-        })
     }
 
     let optionsList
@@ -131,31 +109,6 @@ export const UpdateTicketModal = () => {
         >{status}</option>
     ))
 
-    let submit
-
-    if(success) {
-
-        submit =
-
-        <div className='col s3'>
-            <div className='modal-footer'>
-                <a className='left modal-close waves-effect waves-green btn' onClick={handleSubmit}>Submit</a>
-            </div>
-        </div>
-
-    } else {
-    
-        submit =
-        
-        <div className='col s11 m8 right'>
-            <ReCAPTCHA
-                sitekey={process.env.REACT_APP_SITE_KEY}
-                onChange={onChange}
-            />
-        </div>
-
-    }
-     
     return(
         <Fragment>
                 <div id='updateTicketModal' className='modal'>
@@ -209,7 +162,11 @@ export const UpdateTicketModal = () => {
                         </div>
                         <div className='row'>
                             <div className='col s5'></div>
-                            {submit}
+                            <div className='col s3'>
+                                <div className='modal-footer'>
+                                    <a className='left modal-close waves-effect waves-green btn' onClick={handleSubmit}>Submit</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

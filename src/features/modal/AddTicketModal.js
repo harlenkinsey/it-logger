@@ -1,9 +1,6 @@
 import React, { useEffect, useState, Fragment } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Recaptcha } from '../recaptcha/Recaptcha';
 import M from 'materialize-css';
-
-import { selectSuccess } from '../recaptcha/recaptchaSlice';
 
 import { 
     selectAllTechnicians, 
@@ -20,7 +17,6 @@ import {
 export const AddTicketModal = () => {
 
     const dispatch = useDispatch()
-    const success = useSelector(selectSuccess);
     const technicians = useSelector(selectAllTechnicians)
     const technicianStatus = useSelector(selectStatus)
     const error = useSelector(selectError)
@@ -116,28 +112,6 @@ export const AddTicketModal = () => {
         </option>
     }
 
-    let submit
-
-    if(success) {
-
-        submit =
-
-        <div className='col s3'>
-            <div className='modal-footer'>
-                <a className='left modal-close waves-effect waves-green btn' onClick={handleSubmit}>Submit</a>
-            </div>
-        </div>
-
-    } else {
-    
-        submit =
-        
-        <div className='col s11 m8 right'>
-            <Recaptcha />
-        </div>
-
-    }
-
     return(
         <Fragment>
                 <div id='addTicket' className='modal'>
@@ -191,7 +165,11 @@ export const AddTicketModal = () => {
                         </div>
                         <div className='row'>
                             <div className='col s5'></div>
-                            {submit}
+                            <div className='col s3'>
+                                <div className='modal-footer'>
+                                    <a className='left modal-close waves-effect waves-green btn' onClick={handleSubmit}>Submit</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
